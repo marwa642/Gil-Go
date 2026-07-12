@@ -249,8 +249,8 @@ let chatState = {};
 
 const map = L.map('map', {zoomControl:false}).setView(THEMES.heritage.center, 8);
 L.control.zoom({position:'bottomright'}).addTo(map);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom:19, attribution:'&copy; OpenStreetMap contributors'
+L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=3yb4n9hxmWdDUtxVCNQT&language=en', {
+  maxZoom:19, attribution:'&copy; MapTiler &copy; OpenStreetMap contributors'
 }).addTo(map);
 markerLayer.addTo(map);
 
