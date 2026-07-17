@@ -462,18 +462,19 @@ async function sendMessage(site, key, question){
   const systemPrompt = `You are a warm, knowledgeable local cultural guide helping an international tourist understand ${site.name}, a ${site.category} located at ${site.address}, Korea. Background: ${site.desc} Answer in 2-4 concise sentences, in plain conversational English, with genuine cultural context and practical usefulness. If you're not certain of a specific detail (like exact prices or hours), say so honestly rather than inventing it.`;
 
   try{
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1000,
-        system: systemPrompt,
-        messages: [{role:"user", content: question}]
-      })
-    });
-    const data = await response.json();
-    const text = (data.content || []).map(b=>b.text || "").join("\n").trim() || "Sorry, I couldn't find an answer to that.";
+ const response = await fetch("https://gil-and-go-backend.marwahshaikh2001.workers.dev", {
+  method: "POST",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify({
+    siteName: site.name,
+    category: site.category,
+    address: site.address,
+    desc: site.desc,
+    question: question
+  })
+});
+const data = await response.json();
+const text = data.answer || "Sorry, I couldn't find an answer to that.";
     chatState[key] = chatState[key].filter(m=>!m.pending);
     chatState[key].push({role:'assistant', content: text});
   }catch(err){
