@@ -344,11 +344,23 @@ function renderLegend(theme){
 }
 
 const THEME_SEARCH_KEYWORDS = {
-  heritage: "사찰",
+  heritage: [
+    { keyword: "사찰", label: "Temple", glyph: "⛩", color: "var(--jade)" },
+    { keyword: "궁궐", label: "Royal Palace", glyph: "宮", color: "var(--indigo)" },
+    { keyword: "산성", label: "Fortress", glyph: "城", color: "var(--gold)" },
+    { keyword: "민속마을", label: "Folk Village", glyph: "村", color: "var(--cinnabar)" },
+    { keyword: "박물관", label: "Museum", glyph: "🏛", color: "var(--indigo)" },
+    { keyword: "조각공원", label: "Sculpture Park", glyph: "🗿", color: "var(--jade)" },
+    { keyword: "템플스테이", label: "Temple Stay", glyph: "🧘", color: "var(--gold)" },
+    { keyword: "전통혼례", label: "Traditional Wedding Experience", glyph: "💒", color: "var(--cinnabar)" },
+    { keyword: "다도체험", label: "Tea Ceremony Experience", glyph: "🍵", color: "var(--jade)" },
+    { keyword: "태권도체험", label: "Taekwondo Experience", glyph: "🥋", color: "var(--indigo)" },
+    { keyword: "연등축제", label: "Lantern Festival", glyph: "🏮", color: "var(--cinnabar)" },
+    { keyword: "벚꽃", label: "Cherry Blossom Spot", glyph: "🌸", color: "var(--gold)" },
+  ],
   hallyu: "노래방",
   halal: "할랄 음식점"
 };
-
 let discoveredOverlays = [];
 
 function clearDiscovered(){
