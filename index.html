@@ -442,6 +442,8 @@ async function loadNearbyDiscoveries(theme){
   });
 
   renderLegend(theme);
+  clearDiscovered();
+  loadNearbyDiscoveries(theme);
 
   if(!opts.skipFly){
     map.setBounds(bounds, 70, 70, 70, 70);
