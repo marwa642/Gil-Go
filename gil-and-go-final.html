@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gil &amp; Go — Korea, off script</title>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=01c05bc352475b935f589e35656e4baf"></script>
+<style>
+  :root{
+    --ink:#211f1c;
+    --hanji:#f3ead6;
+    --hanji-deep:#e8dcbf;
+    --cinnabar:#bf3b2a;
+    --indigo:#2c4257;
+    --jade:#4b7a63;
+    --gold:#b98a35;
+    --line: rgba(33,31,28,0.14);
+    --transition: background .35s ease, color .35s ease, border-color .35s ease;
+  }
+  body[data-theme="hallyu"]{
+    --ink:#3b2d47;
+    --hanji:#fdf3fa;
+    --hanji-deep:#f6e4f2;
+    --cinnabar:#ff6fa8;
+    --indigo:#6f9bdb;
+    --jade:#c79ce8;
+    --gold:#ffc98a;
+    --line: rgba(80,55,90,0.16);
+  }
+  body[data-theme="hallyu"]{
+    background: linear-gradient(150deg, #ffd9a8 0%, #ffb3c6 32%, #d9b3e8 62%, #9fc3ef 100%);
+    background-attachment: fixed;
+  }
+  body[data-theme="halal"]{
+    --ink:#132318;
+    --hanji:#eef8f1;
+    --hanji-deep:#dcefe1;
+    --cinnabar:#1f8a4c;
+    --indigo:#0f6b39;
+    --jade:#2fae62;
+    --gold:#c9a227;
+    --line: rgba(15,60,35,0.16);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;font-family:ui-sans-serif,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--hanji); transition:var(--transition);}
+  h1,h2,h3,.display{font-family:"Nanum Myeongjo",ui-serif,Georgia,"Noto Serif KR",serif;}
+  body[data-theme="hallyu"] h1, body[data-theme="hallyu"] h2, body[data-theme="hallyu"] .display{
+    font-family:ui-sans-serif,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; font-weight:800; letter-spacing:-0.01em;
+  }
+
+  #app{position:relative;width:100vw;height:100vh;overflow:hidden;}
+
+  .brand{
+    position:absolute; top:18px; left:18px; z-index:900;
+    display:flex; align-items:center; gap:10px;
+    background:var(--hanji); border:1px solid var(--line);
+    padding:10px 16px 10px 12px; border-radius:3px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.10); transition:var(--transition);
+  }
+  body[data-theme="hallyu"] .brand{ box-shadow:0 0 24px rgba(255,111,168,0.25), 0 0 0 1px rgba(255,255,255,0.4); border-radius:14px; }
+  .brand .seal{
+    width:34px;height:34px;border-radius:4px;background:var(--cinnabar);
+    color:var(--hanji); display:flex;align-items:center;justify-content:center;
+    font-family:"Nanum Myeongjo",serif; font-size:19px; line-height:1; font-weight:700;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,0.15);
+    transform:rotate(-2deg); transition:var(--transition);
+  }
+  body[data-theme="hallyu"] .brand .seal{ border-radius:50%; transform:none; font-family:inherit; }
+  .brand .name{font-size:19px; font-weight:700; letter-spacing:0.02em;}
+  .brand .tagline{font-size:10.5px; color:var(--indigo); opacity:0.8; letter-spacing:0.04em; text-transform:uppercase; margin-top:1px; transition:var(--transition);}
+
+  .themes{
+    position:absolute; top:18px; right:18px; z-index:900;
+    display:flex; gap:8px;
+    background:var(--hanji); border:1px solid var(--line); border-radius:3px;
+    padding:6px; box-shadow:0 2px 10px rgba(0,0,0,0.10); transition:var(--transition);
+  }
+  body[data-theme="hallyu"] .themes{ border-radius:24px; }
+  .theme-pill{
+    padding:9px 16px; border-radius:2px; font-size:13px; font-weight:600;
+    cursor:pointer; border:1px solid transparent; white-space:nowrap;
+    letter-spacing:0.01em; transition:all .15s ease; color:var(--ink);
+  }
+  body[data-theme="hallyu"] .theme-pill{ border-radius:20px; }
+  .theme-pill.active{ background:var(--indigo); color:#0c0c10; transform:scale(1.06); box-shadow:0 2px 8px rgba(0,0,0,0.25); font-weight:800; }
+  body[data-theme="heritage"] .theme-pill.active{ color:var(--hanji); }
+
+  .routebar{
+    position:absolute; top:78px; left:18px; z-index:900;
+    display:flex; align-items:center; gap:8px;
+    background:var(--hanji); border:1px solid var(--line); border-radius:3px;
+    padding:8px 10px; box-shadow:0 2px 10px rgba(0,0,0,0.10); transition:var(--transition);
+    max-width:calc(100vw - 36px);
+  }
+  body[data-theme="hallyu"] .routebar{ border-radius:14px; }
+  .routebar input{
+    border:1px solid var(--line); background:var(--hanji-deep); color:var(--ink);
+    padding:8px 10px; border-radius:2px; font-size:12.5px; font-family:inherit; width:180px;
+  }
+  body[data-theme="hallyu"] .routebar input{ border-radius:10px; }
+  .routebar input:focus{outline:none; border-color:var(--indigo);}
+  .route-arrow{opacity:0.5; font-size:13px;}
+  .routebar button{
+    background:var(--cinnabar); color:#0c0c10; border:none; padding:8px 14px; border-radius:2px;
+    font-weight:700; cursor:pointer; font-size:12px; white-space:nowrap;
+  }
+  body[data-theme="hallyu"] .routebar button{ border-radius:10px; }
+
+  .legend{
+    position:absolute; bottom:22px; left:18px; z-index:900;
+    background:var(--hanji); border:1px solid var(--line); border-radius:3px;
+    padding:12px 14px; box-shadow:0 2px 10px rgba(0,0,0,0.10);
+    font-size:12px; max-width:220px; transition:var(--transition);
+    max-height:40vh; overflow-y:auto;
+  }
+  body[data-theme="hallyu"] .legend{ border-radius:14px; }
+  .legend .lg-title{font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--indigo); font-weight:700; margin-bottom:8px;}
+  .legend-row{display:flex; align-items:center; gap:8px; margin:5px 0;}
+  .legend-dot{width:18px;height:18px;border-radius:50%;flex:none; display:flex;align-items:center;justify-content:center;font-size:10px;color:#0c0c10;}
+
+  #map{position:absolute; inset:0; z-index:1;}
+
+  .seal-marker{
+    width:42px;height:42px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+    border:3px solid var(--hanji); box-shadow:0 3px 10px rgba(0,0,0,0.45);
+    cursor:pointer;
+  }
+
+  .drawer{
+    position:absolute; top:0; right:0; height:100%; width:400px; max-width:92vw;
+    background:var(--hanji); z-index:1000; box-shadow:-6px 0 24px rgba(0,0,0,0.18);
+    transform:translateX(100%); transition:transform .32s cubic-bezier(.2,.8,.2,1), background .35s ease;
+    display:flex; flex-direction:column; border-left:1px solid var(--line);
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-scroll{overflow-y:auto; flex:1; padding:26px 24px 18px;}
+  .drawer-close{
+    position:absolute; top:14px; right:14px; width:30px;height:30px;border-radius:50%;
+    border:1px solid var(--line); background:transparent; cursor:pointer; font-size:15px;
+    display:flex;align-items:center;justify-content:center; color:var(--ink); z-index:5;
+  }
+  .drawer-eyebrow{font-size:10px; letter-spacing:0.09em; text-transform:uppercase; color:var(--cinnabar); font-weight:700; margin-bottom:6px;}
+  .drawer h2{font-size:26px; margin:0 0 4px; line-height:1.15;}
+  .drawer .loc{font-size:12.5px; color:var(--indigo); opacity:0.85; margin-bottom:16px; line-height:1.5;}
+  .drawer .desc{font-size:14.5px; line-height:1.65; margin-bottom:16px;}
+  .drawer .source-tag{
+    display:inline-block; font-size:10.5px; font-family:ui-monospace,"IBM Plex Mono",monospace;
+    background:var(--hanji-deep); border:1px solid var(--line); padding:3px 8px; border-radius:2px; margin-bottom:6px;
+  }
+  .drawer a.official{font-size:12.5px; color:var(--indigo); display:inline-block; margin-bottom:20px; text-decoration:underline; text-underline-offset:2px;}
+  .divider{height:1px; background:var(--line); margin:18px 0;}
+
+  .ai-box .ai-title{font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--indigo); font-weight:700; margin-bottom:10px;}
+  .ai-log{display:flex; flex-direction:column; gap:10px; margin-bottom:12px; max-height:260px; overflow-y:auto;}
+  .ai-msg{font-size:13.5px; line-height:1.55; padding:10px 12px; border-radius:3px;}
+  body[data-theme="hallyu"] .ai-msg{ border-radius:12px; }
+  .ai-msg.user{background:var(--indigo); color:#0c0c10; align-self:flex-end; max-width:85%;}
+  .ai-msg.assistant{background:var(--hanji-deep); align-self:flex-start; max-width:92%; border:1px solid var(--line);}
+  .ai-msg.pending{opacity:0.6; font-style:italic;}
+  .ai-suggestions{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;}
+  .chip{font-size:11.5px; border:1px solid var(--line); background:transparent; padding:6px 10px; border-radius:20px; cursor:pointer; color:var(--ink);}
+  .chip:hover{border-color:var(--indigo); color:var(--indigo);}
+  .ai-input-row{display:flex; gap:8px; padding-top:4px;}
+  .ai-input-row input{
+    flex:1; border:1px solid var(--line); background:var(--hanji-deep); padding:10px 12px; border-radius:3px;
+    font-size:13.5px; font-family:inherit; color:var(--ink);
+  }
+  body[data-theme="hallyu"] .ai-input-row input{ border-radius:10px; }
+  .ai-input-row input:focus{outline:none; border-color:var(--indigo);}
+  .ai-input-row button{
+    background:var(--cinnabar); color:#0c0c10; border:none; padding:0 16px; border-radius:3px;
+    font-weight:700; cursor:pointer; font-size:13px;
+  }
+  body[data-theme="hallyu"] .ai-input-row button{ border-radius:10px; }
+  .ai-input-row button:disabled{opacity:0.5; cursor:default;}
+
+  .empty-hint{
+    position:absolute; bottom:22px; right:18px; z-index:900; max-width:230px;
+    background:var(--hanji); border:1px solid var(--line); border-radius:3px; padding:10px 13px;
+    font-size:11.5px; color:var(--indigo); opacity:0.9; box-shadow:0 2px 10px rgba(0,0,0,0.10); transition:var(--transition);
+  }
+  body[data-theme="hallyu"] .empty-hint{ border-radius:12px; }
+
+  @media (max-width:640px){
+    .brand .tagline{display:none;}
+    .legend{display:none;}
+    .drawer{width:100vw;}
+    .routebar{flex-wrap:wrap; top:auto; bottom:78px; left:18px; right:18px;}
+    .routebar input{width:100%;}
+  }
+</style>
+</head>
+<body data-theme="heritage">
+<div id="app">
+  <div class="brand">
+    <div class="seal" id="sealMark">길</div>
+    <div>
+      <div class="name">Gil &amp; Go</div>
+      <div class="tagline" id="taglineText">Korea, beyond the guidebook</div>
+    </div>
+  </div>
+
+  <div class="themes">
+    <div class="theme-pill active" data-theme-btn="heritage">Cultural Heritage</div>
+    <div class="theme-pill" data-theme-btn="hallyu">Hallyu</div>
+    <div class="theme-pill" data-theme-btn="halal">Halal Belt</div>
+  </div>
+
+  <div class="routebar" id="routebar">
+    <input type="text" id="fromInput" placeholder="From" />
+    <span class="route-arrow">→</span>
+    <input type="text" id="toInput" placeholder="To" />
+    <button id="routeGo">Show route</button>
+  </div>
+
+  <div id="map"></div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="empty-hint" id="emptyHint">Tap a pin to open a place — then ask its assistant anything.</div>
+
+  <div class="drawer" id="drawer">
+    <button class="drawer-close" id="drawerClose">✕</button>
+    <div class="drawer-scroll" id="drawerContent"></div>
+  </div>
+</div>
+
+<script>
+const THEMES = {
+  heritage: {
+    label: "Cultural Heritage",
+    center: [36.4, 127.9],
+    level: 12,
+    tagline: "Korea, beyond the guidebook",
+    categoryStyle: {
+      "Mountain temple (UNESCO)": {color:"var(--jade)", glyph:"⛩"},
+      "Royal Palace (UNESCO)": {color:"var(--indigo)", glyph:"宮"},
+      "Fortress (UNESCO)": {color:"var(--gold)", glyph:"城"},
+      "Historical Village (UNESCO)": {color:"var(--cinnabar)", glyph:"村"},
+    },
+    sites: [
+      {name:"Tongdosa Temple", category:"Mountain temple (UNESCO)", lat:35.4879503, lng:129.0643366, address:"Yangsan, Gyeongsangnam-do · near Yeongchuksan", desc:"A historic Buddhist mountain monastery, one of Korea's three jewel temples — famed for its ordination platform said to house relics of the Buddha.", source:"UNESCO", url:"https://www.tongdosa.or.kr"},
+      {name:"Buseoksa Temple", category:"Mountain temple (UNESCO)", lat:36.9984542, lng:128.6869587, address:"Yeongju, Gyeongsangbuk-do · near Bonghwangsan", desc:"Perched on a mountainside, celebrated for the Muryangsujeon Hall — one of the oldest wooden buildings surviving in Korea.", source:"UNESCO", url:"https://www.buseoksa.org"},
+      {name:"Bongjeongsa Temple", category:"Mountain temple (UNESCO)", lat:36.6532709, lng:128.6629033, address:"Andong, Gyeongsangbuk-do", desc:"Home to what's believed to be Korea's oldest wooden structure still standing — a quiet, uncrowded temple on Mount Cheondeung.", source:"UNESCO", url:"https://www.bongjeongsa.org"},
+      {name:"Beopjusa Temple", category:"Mountain temple (UNESCO)", lat:36.5415497, lng:127.833176, address:"Boeun, Chungcheongbuk-do · Songnisan National Park", desc:"A major Buddhist temple known for its towering gilt-bronze Buddha statue and evening gong rituals.", source:"UNESCO", url:"https://www.beopjusa.org"},
+      {name:"Magoksa Temple", category:"Mountain temple (UNESCO)", lat:36.558853, lng:127.01212, address:"Gongju, Chungcheongnam-do", desc:"A historic monastery especially striking during Buddha's Birthday, when the grounds fill with lanterns.", source:"UNESCO", url:"https://www.magoksa.or.kr"},
+      {name:"Seonamsa Temple", category:"Mountain temple (UNESCO)", lat:34.9960451, lng:127.3304767, address:"Suncheon, Jeollanam-do · Jogyesan", desc:"A peaceful mountain temple reached by a well-known stone arch bridge, surrounded by osmanthus trees and river trails.", source:"UNESCO", url:"https://www.suncheon.go.kr"},
+      {name:"Daeheungsa Temple", category:"Mountain temple (UNESCO)", lat:34.4763139, lng:126.6168278, address:"Haenam, Jeollanam-do", desc:"The largest temple in Haenam, at the foot of Mount Duryun — over a thousand years of history and a center of Korean Buddhist practice.", source:"UNESCO", url:"https://www.daeheungsa.co.kr"},
+      {name:"Changdeokgung Palace", category:"Royal Palace (UNESCO)", lat:37.5794309, lng:126.9910426, address:"Jongno District, Seoul", desc:"A Joseon-dynasty royal palace prized for its Secret Garden and for blending architecture naturally into the surrounding landscape.", source:"Visit Korea", url:"https://royalpalace.go.kr"},
+      {name:"Hwaseong Fortress", category:"Fortress (UNESCO)", lat:37.2871202, lng:127.0119379, address:"Suwon, Gyeonggi-do", desc:"An 18th-century fortress encircling old Suwon — walk the walls for sweeping views and well-preserved gates and watchtowers.", source:"Visit Korea", url:"https://www.swcf.or.kr"},
+      {name:"Hahoe Folk Village", category:"Historical Village (UNESCO)", lat:36.5389131, lng:128.5181474, address:"Andong, Gyeongsangbuk-do", desc:"A living traditional clan village of hanok houses along the Nakdong River, known for its mask-dance drama performances.", source:"Visit Korea", url:"https://www.hahoe.or.kr"},
+    ]
+  },
+  hallyu: {
+    label: "Hallyu",
+    center: [35.13, 129.06],
+    level: 9,
+    tagline: "Busan, off the fan-page radar",
+    categoryStyle: {
+      "K-Drama Filming Location": {color:"var(--cinnabar)", glyph:"🎬"},
+      "Busking Zone": {color:"var(--jade)", glyph:"🎤"},
+      "K-pop Album Shop": {color:"var(--indigo)", glyph:"💿"},
+      "Dance Studio on Rent": {color:"var(--gold)", glyph:"💃"},
+      "Celebrity-owned Cafe": {color:"var(--cinnabar)", glyph:"☕"},
+      "Celebrity/Film Cafe": {color:"var(--cinnabar)", glyph:"☕"},
+    },
+    sites: [
+      {name:"Gamcheon Culture Village", category:"K-Drama Filming Location", lat:35.0973904, lng:129.0105924, address:"Gamnae 2-ro, Saha-gu, Busan", desc:"Busan's colorful hillside village, featured as a backdrop in multiple Korean dramas and films — narrow alleys, murals, and sea views.", source:"Korea Tourism", url:"https://english.visitkorea.or.kr"},
+      {name:"Huinnyeoul Culture Village", category:"K-Drama Filming Location", lat:35.0782798, lng:129.0453198, address:"Yeongdo-gu, Busan", desc:"A quieter, coastal filming location — narrow cliffside alleys and cafes overlooking the sea, popular with drama and film crews.", source:"Travel guides", url:"https://map.kakao.com"},
+      {name:"Gwangalli Beach", category:"Busking Zone", lat:35.1531696, lng:129.118666, address:"Suyeong-gu, Busan", desc:"A lively beach known for evening busking — musicians and dancers regularly perform against the backdrop of Gwangan Bridge.", source:"Local events", url:"https://map.kakao.com"},
+      {name:"Haeundae Beach", category:"Busking Zone", lat:35.1586975, lng:129.1603842, address:"Haeundae-gu, Busan", desc:"Busan's most famous beach — home to regular beach performances, festivals, and impromptu K-pop dance covers, especially at sunset.", source:"Local events", url:"https://map.kakao.com"},
+      {name:"Music Korea Seomyeon", category:"K-pop Album Shop", lat:35.1549485, lng:129.0626844, address:"Seomyeon, Busan", desc:"A well-stocked K-pop album and merch shop in the Seomyeon shopping district, known for carrying deep stock of new releases.", source:"Community", url:"https://map.kakao.com"},
+      {name:"Aladin Seomyeon", category:"K-pop Album Shop", lat:35.1554893, lng:129.0597341, address:"Seomyeon, Busan", desc:"A large used-and-new bookstore with a surprisingly strong K-pop album corner tucked in on the first floor.", source:"Reddit", url:"https://map.kakao.com"},
+      {name:"Busan Dance Center", category:"Dance Studio on Rent", lat:35.1503442, lng:129.0111245, address:"Busanjin-gu, Busan", desc:"An hourly-rental dance studio where visitors can practice K-pop choreography in a real Korean studio setting.", source:"Naver", url:"https://map.kakao.com"},
+      {name:"Magnate (ZM-illennial)", category:"Celebrity-owned Cafe", lat:35.1388747, lng:129.0801719, address:"Nam-gu, Busan", desc:"A cafe owned by BTS member Jimin's father — spacious, warmly reviewed on its own merits, with memorabilia fans travel specifically to see.", source:"Travel guides", url:"https://map.kakao.com"},
+      {name:"Kkotbunine", category:"Celebrity/Film Cafe", lat:35.1013575, lng:129.0281978, address:"Inside/near Gukje Market, Jung-gu, Busan", desc:"A film-famous shop and cafe tucked inside the historic Gukje Market — worth pairing with a wider walk through the market itself.", source:"NOL", url:"https://map.kakao.com"},
+    ]
+  },
+  halal: {
+    label: "Halal Belt",
+    center: [35.160, 129.060],
+    level: 9,
+    tagline: "Halal-friendly Busan",
+    categoryStyle: {
+      "Halal Restaurant": {color:"var(--jade)", glyph:"🍽️"}
+    },
+    sites: [
+      {name:"Cappadocia Turkish Kebap House", category:"Halal Restaurant", lat:35.1577, lng:129.0588, address:"Namsan-dong, Busan", desc:"Authentic Turkish halal restaurant serving kebabs and grilled dishes.", source:"Google Maps", url:"https://map.kakao.com"},
+      {name:"Makan Halal Korean Restaurant", category:"Halal Restaurant", lat:35.1618, lng:129.1635, address:"Haeundae, Busan", desc:"One of Busan's most popular halal Korean restaurants.", source:"Google Maps", url:"https://map.kakao.com"},
+      {name:"Namaste Haeundae", category:"Halal Restaurant", lat:35.1608, lng:129.1640, address:"Haeundae, Busan", desc:"Indian halal restaurant near Haeundae Beach.", source:"Google Maps", url:"https://map.kakao.com"},
+      {name:"Hello India Al-Waha", category:"Halal Restaurant", lat:35.1612, lng:129.1632, address:"Haeundae, Busan", desc:"Indian halal cuisine with vegetarian options.", source:"Google Maps", url:"https://map.kakao.com"},
+      {name:"Eobu Seafood", category:"Halal Restaurant", lat:35.1604, lng:129.1643, address:"Haeundae, Busan", desc:"Seafood restaurant with halal-friendly menu options.", source:"Google Maps", url:"https://map.kakao.com"},
+      {name:"Samarkand Uzbek Restaurant", category:"Halal Restaurant", lat:35.1150, lng:129.0400, address:"Busan Station Chinatown", desc:"Uzbek restaurant serving halal Central Asian cuisine.", source:"Google Maps", url:"https://map.kakao.com"},
+      {name:"Warung Jaya Mbak Tia", category:"Halal Restaurant", lat:35.0985, lng:129.0335, address:"Nampo-dong, Busan", desc:"Indonesian halal restaurant popular among Muslim travelers.", source:"Google Maps", url:"https://map.kakao.com"}
+    ]
+  }
+};
+
+let currentTheme = "heritage";
+let currentOverlays = [];
+let chatState = {};
+
+const mapContainer = document.getElementById('map');
+const map = new kakao.maps.Map(mapContainer, {
+  center: new kakao.maps.LatLng(THEMES.heritage.center[0], THEMES.heritage.center[1]),
+  level: THEMES.heritage.level
+});
+map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP);
+
+const drawer = document.getElementById('drawer');
+const drawerContent = document.getElementById('drawerContent');
+const emptyHint = document.getElementById('emptyHint');
+const legend = document.getElementById('legend');
+
+function clearOverlays(){
+  currentOverlays.forEach(ov => ov.setMap(null));
+  currentOverlays = [];
+}
+
+function renderLegend(theme){
+  const t = THEMES[theme];
+  let html = `<div class="lg-title">On the map</div>`;
+  Object.entries(t.categoryStyle).forEach(([cat, style])=>{
+    html += `<div class="legend-row"><div class="legend-dot" style="background:${style.color}">${style.glyph}</div>${cat}</div>`;
+  });
+  legend.innerHTML = html;
+}
+
+const THEME_SEARCH_KEYWORDS = {
+  heritage: [
+    { keyword: "사찰", label: "Temple", glyph: "⛩", color: "var(--jade)" },
+    { keyword: "궁궐", label: "Royal Palace", glyph: "宮", color: "var(--indigo)" },
+    { keyword: "산성", label: "Fortress", glyph: "城", color: "var(--gold)" },
+    { keyword: "민속마을", label: "Folk Village", glyph: "村", color: "var(--cinnabar)" },
+    { keyword: "박물관", label: "Museum", glyph: "🏛", color: "var(--indigo)" },
+    { keyword: "조각공원", label: "Sculpture Park", glyph: "🗿", color: "var(--jade)" },
+    { keyword: "템플스테이", label: "Temple Stay", glyph: "🧘", color: "var(--gold)" },
+    { keyword: "전통혼례", label: "Traditional Wedding Experience", glyph: "💒", color: "var(--cinnabar)" },
+    { keyword: "다도체험", label: "Tea Ceremony Experience", glyph: "🍵", color: "var(--jade)" },
+    { keyword: "태권도체험", label: "Taekwondo Experience", glyph: "🥋", color: "var(--indigo)" },
+    { keyword: "연등축제", label: "Lantern Festival", glyph: "🏮", color: "var(--cinnabar)" },
+    { keyword: "벚꽃", label: "Cherry Blossom Spot", glyph: "🌸", color: "var(--gold)" },
+  ],
+  hallyu: "노래방",
+  halal: "할랄 음식점"
+};
+
+let discoveredOverlays = [];
+
+function clearDiscovered(){
+  discoveredOverlays.forEach(ov => ov.setMap(null));
+  discoveredOverlays = [];
+}
+
+async function loadNearbyDiscoveries(theme){
+  const config = THEME_SEARCH_KEYWORDS[theme];
+  if(!config) return;
+
+  clearDiscovered();
+
+  const categories = Array.isArray(config)
+    ? config
+    : [{ keyword: config, label: "Nearby discovery", glyph: "＋", color: "var(--indigo)" }];
+
+  try {
+    const results = await Promise.all(categories.map(cat =>
+      fetch("https://gil-and-go-backend.marwahshaikh2001.workers.dev", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ type: "nearby-search", keyword: cat.keyword, nationwide: true, maxPages: 1 })
+      }).then(r => r.json()).then(data => ({ cat, places: data.places || [] }))
+       .catch(() => ({ cat, places: [] }))
+    ));
+
+    results.forEach(({ cat, places }) => {
+      places.forEach(place => {
+        const el = document.createElement('div');
+        el.className = 'seal-marker';
+        el.style.background = 'transparent';
+        el.style.border = `2px dashed ${cat.color}`;
+        el.style.color = cat.color;
+        el.style.fontSize = '15px';
+        el.textContent = cat.glyph;
+        el.title = place.name;
+
+        const position = new kakao.maps.LatLng(place.lat, place.lng);
+        const overlay = new kakao.maps.CustomOverlay({
+          position: position, content: el, yAnchor: 0.5, xAnchor: 0.5
+        });
+        overlay.setMap(map);
+        discoveredOverlays.push(overlay);
+
+        el.addEventListener('click', () => {
+          openDrawer({
+            name: place.name,
+            category: `${cat.label} (auto-discovered)`,
+            address: place.address,
+            desc: "Automatically found nearby — not yet reviewed by Gil & Go.",
+            source: "Kakao Local Search",
+            url: place.url
+          });
+        });
+      });
+    });
+  } catch(err) {
+    console.error("Nearby discovery failed:", err);
+  }
+}
+
+function loadTheme(theme, opts={}){
+  currentTheme = theme;
+  const t = THEMES[theme];
+  document.body.setAttribute('data-theme', theme);
+  document.getElementById('taglineText').textContent = t.tagline;
+  document.getElementById('sealMark').textContent = "길";
+
+  document.querySelectorAll('.theme-pill').forEach(p=>{
+    p.classList.toggle('active', p.dataset.themeBtn === theme);
+  });
+
+  clearOverlays();
+
+  const bounds = new kakao.maps.LatLngBounds();
+
+  t.sites.forEach(site=>{
+    const style = t.categoryStyle[site.category];
+    const position = new kakao.maps.LatLng(site.lat, site.lng);
+    bounds.extend(position);
+
+    const el = document.createElement('div');
+    el.className = 'seal-marker';
+    el.style.background = style.color;
+    el.textContent = style.glyph;
+    el.addEventListener('click', () => openDrawer(site));
+
+    const overlay = new kakao.maps.CustomOverlay({
+      position: position,
+      content: el,
+      yAnchor: 0.5,
+      xAnchor: 0.5
+    });
+    overlay.setMap(map);
+    currentOverlays.push(overlay);
+  });
+
+  renderLegend(theme);
+  clearDiscovered();
+  loadNearbyDiscoveries(theme);
+
+  if(!opts.skipFly){
+    map.setBounds(bounds, 70, 70, 70, 70);
+  }
+
+  drawer.classList.remove('open');
+  emptyHint.style.display = 'block';
+}
+
+document.querySelectorAll('.theme-pill').forEach(pill=>{
+  pill.addEventListener('click', ()=>{
+    const theme = pill.dataset.themeBtn;
+    if(theme !== currentTheme) loadTheme(theme);
+  });
+});
+
+document.getElementById('drawerClose').addEventListener('click', ()=>{
+  drawer.classList.remove('open');
+});
+
+function openDrawer(site){
+  emptyHint.style.display = 'none';
+  const key = currentTheme + "::" + site.name;
+  if(!chatState[key]) chatState[key] = [];
+
+  drawerContent.innerHTML = `
+    <div class="drawer-eyebrow">${site.category}</div>
+    <h2>${site.name}</h2>
+    <div class="loc">${site.address}</div>
+    <div class="desc">${site.desc}</div>
+    <div class="source-tag">Source: ${site.source}</div><br/>
+    <a class="official" href="${site.url}" target="_blank" rel="noopener">More info ↗</a>
+    <div class="divider"></div>
+    <div class="ai-box">
+      <div class="ai-title">Ask about this place</div>
+      <div class="ai-log" id="aiLog"></div>
+      <div class="ai-suggestions" id="aiSuggestions">
+        <button class="chip" data-q="What should I know before visiting?">What should I know before visiting?</button>
+        <button class="chip" data-q="Is there any etiquette I should follow here?">Visitor etiquette?</button>
+        <button class="chip" data-q="What's the best way to get here without a car?">Getting here without a car?</button>
+      </div>
+      <div class="ai-input-row">
+        <input type="text" id="aiInput" placeholder="Ask anything about ${site.name}..." />
+        <button id="aiSend">Ask</button>
+      </div>
+    </div>
+  `;
+  drawer.classList.add('open');
+  renderLog(key);
+
+  document.querySelectorAll('#aiSuggestions .chip').forEach(chip=>{
+    chip.addEventListener('click', ()=> sendMessage(site, key, chip.dataset.q));
+  });
+  document.getElementById('aiSend').addEventListener('click', ()=>{
+    const input = document.getElementById('aiInput');
+    if(input.value.trim()){ sendMessage(site, key, input.value.trim()); input.value=''; }
+  });
+  document.getElementById('aiInput').addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter'){
+      const input = e.target;
+      if(input.value.trim()){ sendMessage(site, key, input.value.trim()); input.value=''; }
+    }
+  });
+}
+
+function renderLog(key){
+  const log = document.getElementById('aiLog');
+  if(!log) return;
+  log.innerHTML = (chatState[key]||[]).map(m=>
+    `<div class="ai-msg ${m.role}${m.pending ? ' pending':''}">${m.content}</div>`
+  ).join('');
+  log.scrollTop = log.scrollHeight;
+}
+
+async function sendMessage(site, key, question){
+  chatState[key].push({role:'user', content: question});
+  chatState[key].push({role:'assistant', content: '…thinking', pending:true});
+  renderLog(key);
+
+  try{
+    const response = await fetch("https://gil-and-go-backend.marwahshaikh2001.workers.dev", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        siteName: site.name,
+        category: site.category,
+        address: site.address,
+        desc: site.desc,
+        question: question
+      })
+    });
+    const data = await response.json();
+    const text = data.answer || "Sorry, I couldn't find an answer to that.";
+    chatState[key] = chatState[key].filter(m=>!m.pending);
+    chatState[key].push({role:'assistant', content: text});
+  }catch(err){
+    chatState[key] = chatState[key].filter(m=>!m.pending);
+    chatState[key].push({role:'assistant', content: "Something went wrong reaching the assistant — please try again."});
+  }
+  renderLog(key);
+}
+
+document.getElementById('routeGo').addEventListener('click', ()=>{
+  const from = document.getElementById('fromInput').value.trim();
+  const to = document.getElementById('toInput').value.trim();
+  const t = THEMES[currentTheme];
+  emptyHint.textContent = (from && to)
+    ? `Concept preview: real routing from "${from}" to "${to}" along the ${t.label} belt is coming soon — for now, explore the pins below.`
+    : `Enter both a "from" and "to" to preview a route along the ${t.label} belt.`;
+  emptyHint.style.display = 'block';
+});
+
+loadTheme('heritage');
+
+function distanceKm(lat1, lng1, lat2, lng2){
+  const R = 6371;
+  const dLat = (lat2-lat1) * Math.PI/180;
+  const dLng = (lng2-lng1) * Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const { latitude, longitude } = pos.coords;
+      let nearest = null, nearestDist = Infinity;
+      Object.entries(THEMES).forEach(([key, t]) => {
+        const d = distanceKm(latitude, longitude, t.center[0], t.center[1]);
+        if (d < nearestDist) { nearestDist = d; nearest = key; }
+      });
+      if (nearest && nearest !== currentTheme) {
+        emptyHint.innerHTML = `📍 You seem closest to the <b>${THEMES[nearest].label}</b> belt — <span id="suggestSwitch" style="text-decoration:underline;cursor:pointer;">switch to it?</span>`;
+        emptyHint.style.display = 'block';
+        document.getElementById('suggestSwitch').addEventListener('click', () => loadTheme(nearest));
+      }
+    },
+    () => { /* location denied or unavailable — silently keep default theme */ }
+  );
+}
+</script>
+</body>
+</html>
