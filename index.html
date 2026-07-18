@@ -403,9 +403,11 @@ async function loadNearbyDiscoveries(theme){
       });
     });
   } catch(err) {
-    console.error("Nearby discovery failed:", err);
+   console.error("Nearby discovery failed:", err);
   }
 }
+
+function loadTheme(theme, opts={}){
   currentTheme = theme;
   const t = THEMES[theme];
   document.body.setAttribute('data-theme', theme);
