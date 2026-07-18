@@ -343,7 +343,69 @@ function renderLegend(theme){
   legend.innerHTML = html;
 }
 
-function loadTheme(theme, opts={}){
+const THEME_SEARCH_KEYWORDS = {
+  heritage: "사찰",
+  hallyu: "노래방",
+  halal: "할랄 음식점"
+};
+
+let discoveredOverlays = [];
+
+function clearDiscovered(){
+  discoveredOverlays.forEach(ov => ov.setMap(null));
+  discoveredOverlays = [];
+}
+
+async function loadNearbyDiscoveries(theme){
+  const keyword = THEME_SEARCH_KEYWORDS[theme];
+  if(!keyword) return;
+
+  try {
+    const response = await fetch("https://gil-and-go-backend.marwahshaikh2001.workers.dev", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ type: "nearby-search", keyword: keyword, nationwide: true })
+    });
+    const data = await response.json();
+    const places = data.places || [];
+
+    clearDiscovered();
+
+    places.forEach(place => {
+      const el = document.createElement('div');
+      el.className = 'seal-marker';
+      el.style.background = 'transparent';
+      el.style.border = '2px dashed var(--indigo)';
+      el.style.color = 'var(--indigo)';
+      el.style.fontSize = '13px';
+      el.textContent = '＋';
+      el.title = place.name;
+
+      const position = new kakao.maps.LatLng(place.lat, place.lng);
+      const overlay = new kakao.maps.CustomOverlay({
+        position: position,
+        content: el,
+        yAnchor: 0.5,
+        xAnchor: 0.5
+      });
+      overlay.setMap(map);
+      discoveredOverlays.push(overlay);
+
+      el.addEventListener('click', () => {
+        openDrawer({
+          name: place.name,
+          category: "Nearby discovery",
+          address: place.address,
+          desc: "Automatically found nearby — not yet reviewed by Gil & Go.",
+          source: "Kakao Local Search",
+          url: place.url
+        });
+      });
+    });
+  } catch(err) {
+    console.error("Nearby discovery failed:", err);
+  }
+}
   currentTheme = theme;
   const t = THEMES[theme];
   document.body.setAttribute('data-theme', theme);
