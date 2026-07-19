@@ -224,7 +224,10 @@
   </div>
 
   <div class="routebar" id="routebar">
-    <input type="text" id="locationInput" placeholder="Where are you at?" />
+    <div class="location-wrap">
+      <input type="text" id="locationInput" placeholder="Where are you at?" autocomplete="off" />
+      <div class="location-dropdown" id="locationDropdown"></div>
+    </div>
     <button class="primary" id="findNearbyBtn">Show nearby</button>
   </div>
 
