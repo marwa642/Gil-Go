@@ -618,6 +618,9 @@ async function sendMessage(site, key, question){
 
 // ---------- Location search bar ----------
 const placesSearch = new kakao.maps.services.Places();
+const locationInput = document.getElementById('locationInput');
+const locationDropdown = document.getElementById('locationDropdown');
+let searchDebounce = null;
 
 function goToLocationAndSearch(lat, lng, labelForHint){
   const position = new kakao.maps.LatLng(lat, lng);
@@ -630,26 +633,83 @@ function goToLocationAndSearch(lat, lng, labelForHint){
   loadNearbyDiscoveries(currentTheme, lat, lng);
 }
 
+function closeDropdown(){
+  locationDropdown.classList.remove('open');
+  locationDropdown.innerHTML = '';
+}
 
-function searchEnteredLocation(){
-  const query = document.getElementById('locationInput').value.trim();
-  if(!query){
-    if(!navigator.geolocation){
-      emptyHint.textContent = "Location isn't available on this device/browser.";
-      emptyHint.style.display = 'block';
-      return;
-    }
-    emptyHint.textContent = "Finding your location…";
+function useCurrentLocation(){
+  closeDropdown();
+  if(!navigator.geolocation){
+    emptyHint.textContent = "Location isn't available on this device/browser.";
     emptyHint.style.display = 'block';
-    navigator.geolocation.getCurrentPosition(
-      (pos) => goToLocationAndSearch(pos.coords.latitude, pos.coords.longitude, "your location"),
-      () => {
-        emptyHint.textContent = "Couldn't get your location — try entering a place name instead.";
-        emptyHint.style.display = 'block';
-      }
-    );
     return;
   }
+  emptyHint.textContent = "Finding your location…";
+  emptyHint.style.display = 'block';
+  navigator.geolocation.getCurrentPosition(
+    (pos) => goToLocationAndSearch(pos.coords.latitude, pos.coords.longitude, "your location"),
+    () => {
+      emptyHint.textContent = "Couldn't get your location — try entering a place name instead.";
+      emptyHint.style.display = 'block';
+    }
+  );
+}
+
+function renderDropdown(places){
+  let html = `<div class="location-option current" id="currentLocOption">📍 Use current location</div>`;
+  places.forEach(p=>{
+    html += `<div class="location-option" data-lat="${p.y}" data-lng="${p.x}" data-name="${p.place_name.replace(/"/g,'&quot;')}">
+      <div class="loc-name">${p.place_name}</div>
+      <div class="loc-addr">${p.road_address_name || p.address_name || ''}</div>
+    </div>`;
+  });
+  locationDropdown.innerHTML = html;
+  locationDropdown.classList.add('open');
+
+  document.getElementById('currentLocOption').addEventListener('click', useCurrentLocation);
+  locationDropdown.querySelectorAll('.location-option[data-lat]').forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      const lat = parseFloat(opt.dataset.lat);
+      const lng = parseFloat(opt.dataset.lng);
+      const name = opt.dataset.name;
+      locationInput.value = name;
+      closeDropdown();
+      goToLocationAndSearch(lat, lng, name);
+    });
+  });
+}
+
+locationInput.addEventListener('focus', ()=>{
+  const query = locationInput.value.trim();
+  if(!query){
+    renderDropdown([]);
+    return;
+  }
+  placesSearch.keywordSearch(query, (results, status)=>{
+    renderDropdown(status === kakao.maps.services.Status.OK ? results.slice(0,6) : []);
+  });
+});
+
+locationInput.addEventListener('input', ()=>{
+  clearTimeout(searchDebounce);
+  const query = locationInput.value.trim();
+  if(!query){ renderDropdown([]); return; }
+  searchDebounce = setTimeout(()=>{
+    placesSearch.keywordSearch(query, (results, status)=>{
+      renderDropdown(status === kakao.maps.services.Status.OK ? results.slice(0,6) : []);
+    });
+  }, 300);
+});
+
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('.location-wrap')) closeDropdown();
+});
+
+function searchEnteredLocation(){
+  const query = locationInput.value.trim();
+  closeDropdown();
+  if(!query){ useCurrentLocation(); return; }
   emptyHint.textContent = `Looking up "${query}"…`;
   emptyHint.style.display = 'block';
   placesSearch.keywordSearch(query, (results, status) => {
@@ -663,10 +723,9 @@ function searchEnteredLocation(){
   });
 }
 document.getElementById('findNearbyBtn').addEventListener('click', searchEnteredLocation);
-document.getElementById('locationInput').addEventListener('keydown', (e) => {
-  if(e.key === 'Enter') searchEnteredLocation();
+locationInput.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter'){ e.preventDefault(); searchEnteredLocation(); }
 });
-
 loadTheme('heritage');
 </script>
 </body>
