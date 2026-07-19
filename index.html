@@ -103,10 +103,25 @@
     max-width:calc(100vw - 36px);
   }
   body[data-theme="hallyu"] .routebar{ border-radius:14px; }
+  .location-wrap{ position:relative; width:230px; }
   .routebar input{
     border:1px solid var(--line); background:var(--hanji-deep); color:var(--ink);
-    padding:8px 10px; border-radius:2px; font-size:12.5px; font-family:inherit; width:230px;
+    padding:8px 10px; border-radius:2px; font-size:12.5px; font-family:inherit; width:100%;
   }
+  .location-dropdown{
+    position:absolute; top:calc(100% + 6px); left:0; right:0;
+    background:var(--hanji); border:1px solid var(--line); border-radius:2px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.15); max-height:240px; overflow-y:auto;
+    display:none; z-index:950;
+  }
+  .location-dropdown.open{ display:block; }
+  .location-option{
+    padding:10px 12px; font-size:12.5px; cursor:pointer; border-bottom:1px solid var(--line);
+  }
+  .location-option:last-child{ border-bottom:none; }
+  .location-option:hover, .location-option.current{ background:var(--hanji-deep); }
+  .location-option .loc-name{ font-weight:600; }
+  .location-option .loc-addr{ font-size:11px; color:var(--indigo); opacity:0.8; margin-top:2px; }
   body[data-theme="hallyu"] .routebar input{ border-radius:10px; }
   .routebar input:focus{outline:none; border-color:var(--indigo);}
   .routebar .icon-btn{
