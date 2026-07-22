@@ -143,10 +143,14 @@
     max-height:40vh; overflow-y:auto;
   }
   body[data-theme="hallyu"] .legend{ border-radius:14px; }
-  .legend .lg-title{font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--indigo); font-weight:700; margin-bottom:8px;}
-  .legend-row{display:flex; align-items:center; gap:8px; margin:5px 0;}
+.legend .lg-title{font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--indigo); font-weight:700; margin-bottom:8px;}
+  .legend-row{display:flex; align-items:center; gap:8px; margin:5px 0; cursor:pointer; padding:4px 6px; border-radius:3px; transition: background .15s ease;}
+  .legend-row:hover{ background:var(--hanji-deep); }
+  .legend-row.active{ background:var(--hanji-deep); font-weight:700; }
   .legend-dot{width:18px;height:18px;border-radius:50%;flex:none; display:flex;align-items:center;justify-content:center;font-size:10px;color:#0c0c10;}
-
+  .legend-count{ margin-left:auto; font-size:11px; opacity:0.65; }
+  .legend-clear{ margin-top:10px; width:100%; padding:6px 8px; font-size:11px; border:1px solid var(--line); background:transparent; border-radius:3px; cursor:pointer; color:var(--indigo); }
+  .legend-clear:hover{ border-color:var(--indigo); }
   #map{position:absolute; inset:0; z-index:1;}
 
   .seal-marker{
