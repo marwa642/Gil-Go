@@ -543,7 +543,13 @@ overlay.setMap(map);
     currentOverlaysData.push({overlay, category: site.category});
   });
 
-  renderLegend(theme);
+if(theme === 'heritage'){
+    legend.style.display = '';
+    renderLegend(theme);
+  } else {
+    legend.style.display = 'none';
+  }
+
   if(!opts.skipFly){
     map.setBounds(bounds, 70, 70, 70, 70);
   }
