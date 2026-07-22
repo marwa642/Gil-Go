@@ -538,12 +538,12 @@ function loadTheme(theme, opts={}){
       yAnchor: 0.5,
       xAnchor: 0.5
     });
-    overlay.setMap(map);
+overlay.setMap(map);
     currentOverlays.push(overlay);
+    currentOverlaysData.push({overlay, category: site.category});
   });
 
   renderLegend(theme);
-
   if(!opts.skipFly){
     map.setBounds(bounds, 70, 70, 70, 70);
   }
