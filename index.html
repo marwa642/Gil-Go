@@ -353,8 +353,9 @@ const THEMES = {
 
 let currentTheme = "heritage";
 let currentOverlays = [];
+let currentOverlaysData = [];
+let activeFilters = new Set();
 let chatState = {};
-
 const mapContainer = document.getElementById('map');
 const map = new kakao.maps.Map(mapContainer, {
   center: new kakao.maps.LatLng(THEMES.heritage.center[0], THEMES.heritage.center[1]),
