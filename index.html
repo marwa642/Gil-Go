@@ -380,20 +380,49 @@ function applyFilters(){
   });
 }
 
+let activeGroup = 'all';
+const GROUP_LABELS = { place:"PLACES", experience:"EXPERIENCES" };
+
 function renderLegend(theme){
-  const t = THEMES[theme];
   activeFilters.clear();
-  let html = `<div class="lg-title">On the map</div>`;
-  Object.entries(t.categoryStyle).forEach(([cat, style])=>{
-    const count = t.sites.filter(s=>s.category===cat).length;
-    html += `<div class="legend-row" data-cat="${cat.replace(/"/g,'&quot;')}">
-      <div class="legend-dot" style="background:${style.color}">${style.glyph}</div>
-      <span>${cat}</span>
-      <span class="legend-count">${count}</span>
-    </div>`;
+  activeGroup = 'all';
+  if(theme !== 'heritage'){ legend.innerHTML=''; return; }
+  const items = THEME_SEARCH_KEYWORDS.heritage;
+
+  let html = `<div class="legend-tabs">
+    <div class="legend-tab active" data-group="all">All</div>
+    <div class="legend-tab" data-group="place">Places</div>
+    <div class="legend-tab" data-group="experience">Experiences</div>
+  </div>`;
+
+  ['place','experience'].forEach(group=>{
+    const groupItems = items.filter(k=>k.group===group);
+    if(!groupItems.length) return;
+    html += `<div class="lg-title lg-group" data-group-section="${group}">${GROUP_LABELS[group]}</div>`;
+    groupItems.forEach(k=>{
+      html += `<div class="legend-row" data-cat="${k.label.replace(/"/g,'&quot;')}" data-group="${group}">
+        <div class="legend-dot" style="background:${k.color}">${k.glyph}</div>
+        <span>${k.label}</span>
+        <span class="legend-count">0</span>
+      </div>`;
+    });
   });
   html += `<button class="legend-clear" id="legendClearBtn">Clear filters</button>`;
   legend.innerHTML = html;
+
+  legend.querySelectorAll('.legend-tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      activeGroup = tab.dataset.group;
+      legend.querySelectorAll('.legend-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      legend.querySelectorAll('.legend-row').forEach(row=>{
+        row.style.display = (activeGroup==='all' || row.dataset.group===activeGroup) ? '' : 'none';
+      });
+      legend.querySelectorAll('.lg-group').forEach(h=>{
+        h.style.display = (activeGroup==='all' || h.dataset.groupSection===activeGroup) ? '' : 'none';
+      });
+    });
+  });
 
   legend.querySelectorAll('.legend-row').forEach(row=>{
     row.addEventListener('click', ()=>{
@@ -410,7 +439,8 @@ function renderLegend(theme){
     applyFilters();
   });
 }
-const THEME_SEARCH_KEYWORDS = {
+  
+  const THEME_SEARCH_KEYWORDS = {
 heritage: [
     { keywords: ["사찰"], label: "Buddhist Temples", glyph: "⛩", color: "var(--jade)", group: "place" },
     { keywords: ["궁궐"], label: "Royal Palaces", glyph: "宮", color: "var(--indigo)", group: "place" },
