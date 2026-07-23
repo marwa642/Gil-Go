@@ -460,14 +460,23 @@ async function loadNearbyDiscoveries(theme, lat, lng){
   clearDiscovered();
 
   try {
-    const results = await Promise.all(categories.map(cat =>
-      fetch("https://gil-and-go-backend.marwahshaikh2001.workers.dev", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ type: "nearby-search", keyword: cat.keyword, lat: lat, lng: lng, nationwide: false, maxPages: 1 })
-      }).then(r => r.json()).then(data => ({ cat, places: data.places || [] }))
-       .catch(() => ({ cat, places: [] }))
-    ));
+    const results = await Promise.all(categories.map(async cat => {
+      const keywordResults = await Promise.all(cat.keywords.map(kw =>
+        fetch("https://gil-and-go-backend.marwahshaikh2001.workers.dev", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ type: "nearby-search", keyword: kw, lat: lat, lng: lng, nationwide: false, maxPages: 1 })
+        }).then(r => r.json()).then(data => data.places || [])
+         .catch(() => [])
+      ));
+      const seen = new Set();
+      const merged = [];
+      keywordResults.flat().forEach(place => {
+        const key = place.name + '|' + place.lat.toFixed(4) + ',' + place.lng.toFixed(4);
+        if(!seen.has(key)){ seen.add(key); merged.push(place); }
+      });
+      return { cat, places: merged };
+    }));
 
     results.forEach(({ cat, places }) => {
       places.forEach(place => {
@@ -486,6 +495,7 @@ async function loadNearbyDiscoveries(theme, lat, lng){
         });
         overlay.setMap(map);
         discoveredOverlays.push(overlay);
+        discoveredOverlaysData.push({overlay, category: cat.label});
 
         el.addEventListener('click', () => {
           openDrawer({
@@ -507,8 +517,8 @@ async function loadNearbyDiscoveries(theme, lat, lng){
   } catch(err) {
     console.error("Nearby discovery failed:", err);
   }
+  updateDiscoveredCounts();
 }
-
 function loadTheme(theme, opts={}){
   currentTheme = theme;
   const t = THEMES[theme];
