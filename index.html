@@ -477,12 +477,24 @@ heritage: [
 };
 
 let discoveredOverlays = [];
+let discoveredOverlaysData = [];
 
 function clearDiscovered(){
   discoveredOverlays.forEach(ov => ov.setMap(null));
   discoveredOverlays = [];
+  discoveredOverlaysData = [];
 }
 
+function updateDiscoveredCounts(){
+  const counts = {};
+  discoveredOverlaysData.forEach(({category})=>{
+    counts[category] = (counts[category]||0) + 1;
+  });
+  legend.querySelectorAll('.legend-row').forEach(row=>{
+    const el = row.querySelector('.legend-count');
+    if(el) el.textContent = counts[row.dataset.cat] || 0;
+  });
+}
 async function loadNearbyDiscoveries(theme, lat, lng){
   const categories = THEME_SEARCH_KEYWORDS[theme];
   if(!categories) return;
