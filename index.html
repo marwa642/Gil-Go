@@ -375,11 +375,12 @@ function clearOverlays(){
 
 function applyFilters(){
   currentOverlaysData.forEach(({overlay, category})=>{
-    const visible = activeFilters.size === 0 || activeFilters.has(category);
-    overlay.setMap(visible ? map : null);
+    overlay.setMap((activeFilters.size===0 || activeFilters.has(category)) ? map : null);
+  });
+  discoveredOverlaysData.forEach(({overlay, category})=>{
+    overlay.setMap((activeFilters.size===0 || activeFilters.has(category)) ? map : null);
   });
 }
-
 let activeGroup = 'all';
 const GROUP_LABELS = { place:"PLACES", experience:"EXPERIENCES" };
 
