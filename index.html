@@ -411,19 +411,24 @@ function renderLegend(theme){
   });
 }
 const THEME_SEARCH_KEYWORDS = {
-  heritage: [
-    { keyword: "사찰", label: "Temple", glyph: "⛩", color: "var(--jade)" },
-    { keyword: "궁궐", label: "Royal Palace", glyph: "宮", color: "var(--indigo)" },
-    { keyword: "산성", label: "Fortress", glyph: "城", color: "var(--gold)" },
-    { keyword: "민속마을", label: "Folk Village", glyph: "村", color: "var(--cinnabar)" },
-    { keyword: "박물관", label: "Museum", glyph: "🏛", color: "var(--indigo)" },
-    { keyword: "조각공원", label: "Sculpture Park", glyph: "🗿", color: "var(--jade)" },
-    { keyword: "템플스테이", label: "Temple Stay", glyph: "🧘", color: "var(--gold)" },
-    { keyword: "전통혼례", label: "Traditional Wedding Experience", glyph: "💒", color: "var(--cinnabar)" },
-    { keyword: "다도체험", label: "Tea Ceremony Experience", glyph: "🍵", color: "var(--jade)" },
-    { keyword: "태권도체험", label: "Taekwondo Experience", glyph: "🥋", color: "var(--indigo)" },
-    { keyword: "연등축제", label: "Lantern Festival", glyph: "🏮", color: "var(--cinnabar)" },
-    { keyword: "벚꽃", label: "Cherry Blossom Spot", glyph: "🌸", color: "var(--gold)" },
+heritage: [
+    { keywords: ["사찰"], label: "Buddhist Temples", glyph: "⛩", color: "var(--jade)", group: "place" },
+    { keywords: ["궁궐"], label: "Royal Palaces", glyph: "宮", color: "var(--indigo)", group: "place" },
+    { keywords: ["사당","서원","향교"], label: "Shrines & Confucian Academies", glyph: "🛕", color: "var(--gold)", group: "place" },
+    { keywords: ["산성","읍성"], label: "Fortresses & City Walls", glyph: "城", color: "var(--cinnabar)", group: "place" },
+    { keywords: ["한옥마을"], label: "Hanok Village", glyph: "🏘", color: "var(--jade)", group: "place" },
+    { keywords: ["전통시장"], label: "Cultural Market", glyph: "🏮", color: "var(--indigo)", group: "place" },
+    { keywords: ["박물관"], label: "Museum", glyph: "🏛", color: "var(--gold)", group: "place" },
+    { keywords: ["미술관"], label: "Galleries", glyph: "🖼", color: "var(--cinnabar)", group: "place" },
+    { keywords: ["템플스테이"], label: "Temple Stay", glyph: "🧘", color: "var(--jade)", group: "experience" },
+    { keywords: ["요리교실","쿠킹클래스"], label: "Cooking Class", glyph: "🍳", color: "var(--indigo)", group: "experience" },
+    { keywords: ["태권도체험"], label: "Taekwondo Experience", glyph: "🥋", color: "var(--gold)", group: "experience" },
+    { keywords: ["다도체험"], label: "Tea Ceremony", glyph: "🍵", color: "var(--cinnabar)", group: "experience" },
+    { keywords: ["서예체험"], label: "Calligraphy", glyph: "🖌", color: "var(--jade)", group: "experience" },
+    { keywords: ["도자기체험","도예체험"], label: "Pottery Class", glyph: "🏺", color: "var(--indigo)", group: "experience" },
+    { keywords: ["한복체험"], label: "Hanbok Experience", glyph: "👘", color: "var(--gold)", group: "experience" },
+    { keywords: ["전통혼례"], label: "Royal Wedding Ceremony", glyph: "💒", color: "var(--cinnabar)", group: "experience" },
+    { keywords: ["찜질방"], label: "Jjimjilbang Experience", glyph: "♨️", color: "var(--jade)", group: "experience" },
   ],
   hallyu: [
     { keyword: "노래방", label: "Karaoke", glyph: "🎤", color: "var(--indigo)" },
