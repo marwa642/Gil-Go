@@ -144,8 +144,12 @@
   }
   .legend .lg-title{ font-size:11.5px; margin-top:16px; margin-bottom:10px; }
   .legend .lg-title:first-of-type{ margin-top:0; }
-  .legend-row{ padding:8px 8px; font-size:13.5px; }
- .legend-dot{ width:26px; height:26px; font-size:18px; background:transparent !important; }
+ .legend-row{ display:flex; align-items:center; gap:10px; padding:8px 8px; font-size:13.5px; cursor:pointer; border-radius:4px; transition: background .15s ease; }
+  .legend-row:hover{ background:var(--hanji-deep); }
+  .legend-row.active{ background:var(--hanji-deep); font-weight:700; }
+  .legend-dot{ width:26px; height:26px; font-size:18px; background:transparent !important; flex:none; display:flex; align-items:center; justify-content:center; }
+  .legend-count{ margin-left:auto; font-size:12px; opacity:0.65; }
+  
   body[data-theme="hallyu"] .legend{ border-radius:14px; }
   #map{position:absolute; inset:0; z-index:1;}
 
