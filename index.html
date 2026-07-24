@@ -715,8 +715,8 @@ async function sendMessage(site, key, question){
         question: question
       })
     });
-    const data = await response.json();
-    const text = data.answer || "Sorry, I couldn't find an answer to that.";
+   const data = await response.json();
+    const text = data.answer || ("DEBUG ERROR: " + (data.error || "no error field returned"));
     chatState[key] = chatState[key].filter(m=>!m.pending);
     chatState[key].push({role:'assistant', content: text});
   }catch(err){
