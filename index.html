@@ -721,7 +721,7 @@ async function sendMessage(site, key, question){
     chatState[key].push({role:'assistant', content: text});
   }catch(err){
     chatState[key] = chatState[key].filter(m=>!m.pending);
-    chatState[key].push({role:'assistant', content: "Something went wrong reaching the assistant — please try again."});
+    chatState[key].push({role:'assistant', content: "CATCH DEBUG: " + err.name + " — " + err.message});
   }
   renderLog(key);
 }
