@@ -529,13 +529,14 @@ async function loadNearbyDiscoveries(theme, lat, lng){
       places.forEach(place => {
         const el = document.createElement('div');
         el.className = 'seal-marker';
-        el.style.background = 'transparent';
-        el.style.border = `2px dashed ${cat.color}`;
-        el.style.color = cat.color;
-        el.style.fontSize = '15px';
+        el.style.background = cat.color;
+        el.style.color = '#fff';
+        el.style.fontSize = '16px';
+        el.style.width = '36px';
+        el.style.height = '36px';
         el.textContent = cat.glyph;
         el.title = place.name;
-
+        
         const position = new kakao.maps.LatLng(place.lat, place.lng);
         const overlay = new kakao.maps.CustomOverlay({
           position: position, content: el, yAnchor: 0.5, xAnchor: 0.5
