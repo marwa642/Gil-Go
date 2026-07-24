@@ -370,12 +370,23 @@ function clearOverlays(){
 }
 
 function applyFilters(){
+  const bounds = new kakao.maps.LatLngBounds();
+  let anyVisible = false;
+
   currentOverlaysData.forEach(({overlay, category})=>{
-    overlay.setMap((activeFilters.size===0 || activeFilters.has(category)) ? map : null);
+    const visible = activeFilters.size===0 || activeFilters.has(category);
+    overlay.setMap(visible ? map : null);
+    if(visible){ bounds.extend(overlay.getPosition()); anyVisible = true; }
   });
   discoveredOverlaysData.forEach(({overlay, category})=>{
-    overlay.setMap((activeFilters.size===0 || activeFilters.has(category)) ? map : null);
+    const visible = activeFilters.size===0 || activeFilters.has(category);
+    overlay.setMap(visible ? map : null);
+    if(visible){ bounds.extend(overlay.getPosition()); anyVisible = true; }
   });
+
+  if(activeFilters.size > 0 && anyVisible){
+    map.setBounds(bounds, 60, 60, 60, 60);
+  }
 }
 let activeGroup = 'all';
 const GROUP_LABELS = { place:"PLACES", experience:"EXPERIENCES" };
