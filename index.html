@@ -590,6 +590,21 @@ async function loadNearbyDiscoveries(theme, lat, lng){
         });
       });
     });
+ if(NEEDS_TRANSLATION){
+      const toTranslate = [];
+      results.forEach(({ places }) => places.forEach(p => {
+        toTranslate.push(p.name);
+        toTranslate.push(p.address || '');
+      }));
+      translateTexts(toTranslate).then(translated => {
+        let i = 0;
+        results.forEach(({ places }) => places.forEach(p => {
+          p.nameOriginal = p.name;
+          p.name = translated[i++] || p.name;
+          p.address = translated[i++] || p.address;
+        }));
+      }).catch(()=>{});
+    }
   } catch(err) {
     console.error("Nearby discovery failed:", err);
   }
