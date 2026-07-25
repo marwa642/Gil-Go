@@ -516,8 +516,13 @@ async function translateTexts(texts){
   for(let i = 0; i < texts.length; i += CHUNK){
     chunks.push(texts.slice(i, i + CHUNK));
   }
-  const results = await Promise.all(chunks.map(c => translateChunk(c)));
-  return results.flat();
+  const out = [];
+  for(const c of chunks){
+    const r = await translateChunk(c);
+    out.push(...r);
+    await new Promise(res => setTimeout(res, 250));
+  }
+  return out;
 }
 
 function clearDiscovered(){
