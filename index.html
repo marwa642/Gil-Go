@@ -492,6 +492,24 @@ heritage: [
 let discoveredOverlays = [];
 let discoveredOverlaysData = [];
 
+const USER_LANG = (navigator.language || 'en');
+const NEEDS_TRANSLATION = !USER_LANG.toLowerCase().startsWith('ko');
+
+async function translateTexts(texts){
+  if(!NEEDS_TRANSLATION || !texts.length) return texts;
+  try{
+    const res = await fetch("https://gil-and-go-backend.marwahshaikh2001.workers.dev", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ type: "translate", texts: texts, targetLang: USER_LANG })
+    });
+    const data = await res.json();
+    return (data.translations && data.translations.length === texts.length) ? data.translations : texts;
+  }catch(e){
+    return texts;
+  }
+}
+
 function clearDiscovered(){
   discoveredOverlays.forEach(ov => ov.setMap(null));
   discoveredOverlays = [];
