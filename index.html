@@ -816,12 +816,21 @@ function useCurrentLocation(){
   );
 }
 
-function renderDropdown(places){
+async function renderDropdown(places){
+  let names = places.map(p => p.place_name);
+  let addrs = places.map(p => p.road_address_name || p.address_name || '');
+
+  if(NEEDS_TRANSLATION && places.length){
+    const combined = await translateTexts(names.concat(addrs));
+    names = combined.slice(0, names.length);
+    addrs = combined.slice(names.length);
+  }
+
   let html = `<div class="location-option current" id="currentLocOption">📍 Use current location</div>`;
-  places.forEach(p=>{
+  places.forEach((p, idx)=>{
     html += `<div class="location-option" data-lat="${p.y}" data-lng="${p.x}" data-name="${p.place_name.replace(/"/g,'&quot;')}">
-      <div class="loc-name">${p.place_name}</div>
-      <div class="loc-addr">${p.road_address_name || p.address_name || ''}</div>
+      <div class="loc-name">${names[idx]}</div>
+      <div class="loc-addr">${addrs[idx]}</div>
     </div>`;
   });
   locationDropdown.innerHTML = html;
