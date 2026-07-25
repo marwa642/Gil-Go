@@ -495,8 +495,7 @@ let discoveredOverlaysData = [];
 const USER_LANG = (navigator.language || 'en');
 const NEEDS_TRANSLATION = !USER_LANG.toLowerCase().startsWith('ko');
 
-async function translateTexts(texts){
-  if(!NEEDS_TRANSLATION || !texts.length) return texts;
+async function translateChunk(texts){
   try{
     const res = await fetch("https://gil-and-go-backend.marwahshaikh2001.workers.dev", {
       method: "POST",
@@ -508,6 +507,17 @@ async function translateTexts(texts){
   }catch(e){
     return texts;
   }
+}
+
+async function translateTexts(texts){
+  if(!NEEDS_TRANSLATION || !texts.length) return texts;
+  const CHUNK = 30;
+  const chunks = [];
+  for(let i = 0; i < texts.length; i += CHUNK){
+    chunks.push(texts.slice(i, i + CHUNK));
+  }
+  const results = await Promise.all(chunks.map(c => translateChunk(c)));
+  return results.flat();
 }
 
 function clearDiscovered(){
