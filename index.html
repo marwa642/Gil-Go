@@ -551,20 +551,7 @@ async function loadNearbyDiscoveries(theme, lat, lng){
       return { cat, places: merged };
     }));
 
-    if(NEEDS_TRANSLATION){
-      const toTranslate = [];
-      results.forEach(({ places }) => places.forEach(p => {
-        toTranslate.push(p.name);
-        toTranslate.push(p.address || '');
-      }));
-      const translated = await translateTexts(toTranslate);
-      let i = 0;
-      results.forEach(({ places }) => places.forEach(p => {
-        p.nameOriginal = p.name;
-        p.name = translated[i++] || p.name;
-        p.address = translated[i++] || p.address;
-      }));
-    }
+    
 
     results.forEach(({ cat, places }) => {
       places.forEach(place => {
