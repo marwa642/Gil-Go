@@ -851,18 +851,6 @@ async function renderDropdown(places){
     paint(combined.slice(0, names.length), combined.slice(names.length));
   }
 }
-  document.getElementById('currentLocOption').addEventListener('click', useCurrentLocation);
-  locationDropdown.querySelectorAll('.location-option[data-lat]').forEach(opt=>{
-    opt.addEventListener('click', ()=>{
-      const lat = parseFloat(opt.dataset.lat);
-      const lng = parseFloat(opt.dataset.lng);
-      const name = opt.dataset.name;
-      locationInput.value = name;
-      closeDropdown();
-      goToLocationAndSearch(lat, lng, name);
-    });
-  });
-}
 
 locationInput.addEventListener('focus', ()=>{
   const query = locationInput.value.trim();
