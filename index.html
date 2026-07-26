@@ -522,7 +522,9 @@ async function translateTexts(texts){
     chunks.push(missing.slice(i, i + CHUNK));
   }
   const results = await Promise.all(chunks.map(c => translateChunk(c)));
-  results.flat().forEach((val, i) => translateCache.set(missing[i], val));
+  results.flat().forEach((val, i) => {
+    if(val && val !== missing[i]) translateCache.set(missing[i], val);
+  });
   return texts.map(t => translateCache.get(t) || t);
 }
 
