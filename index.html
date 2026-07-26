@@ -816,26 +816,41 @@ function useCurrentLocation(){
   );
 }
 
+let dropdownToken = 0;
+
 async function renderDropdown(places){
-  let names = places.map(p => p.place_name);
-  let addrs = places.map(p => p.road_address_name || p.address_name || '');
+  const myToken = ++dropdownToken;
+  const names = places.map(p => p.place_name);
+  const addrs = places.map(p => p.road_address_name || p.address_name || '');
+
+  function paint(nameArr, addrArr){
+    let html = `<div class="location-option current" id="currentLocOption">📍 Use current location</div>`;
+    places.forEach((p, idx)=>{
+      html += `<div class="location-option" data-lat="${p.y}" data-lng="${p.x}" data-name="${p.place_name.replace(/"/g,'&quot;')}">
+        <div class="loc-name">${nameArr[idx]}</div>
+        <div class="loc-addr">${addrArr[idx]}</div>
+      </div>`;
+    });
+    locationDropdown.innerHTML = html;
+    locationDropdown.classList.add('open');
+    document.getElementById('currentLocOption').addEventListener('click', useCurrentLocation);
+    locationDropdown.querySelectorAll('.location-option[data-lat]').forEach(opt=>{
+      opt.addEventListener('click', ()=>{
+        locationInput.value = opt.dataset.name;
+        closeDropdown();
+        goToLocationAndSearch(parseFloat(opt.dataset.lat), parseFloat(opt.dataset.lng), opt.dataset.name);
+      });
+    });
+  }
+
+  paint(names, addrs);
 
   if(NEEDS_TRANSLATION && places.length){
     const combined = await translateTexts(names.concat(addrs));
-    names = combined.slice(0, names.length);
-    addrs = combined.slice(names.length);
+    if(myToken !== dropdownToken) return;
+    paint(combined.slice(0, names.length), combined.slice(names.length));
   }
-
-  let html = `<div class="location-option current" id="currentLocOption">📍 Use current location</div>`;
-  places.forEach((p, idx)=>{
-    html += `<div class="location-option" data-lat="${p.y}" data-lng="${p.x}" data-name="${p.place_name.replace(/"/g,'&quot;')}">
-      <div class="loc-name">${names[idx]}</div>
-      <div class="loc-addr">${addrs[idx]}</div>
-    </div>`;
-  });
-  locationDropdown.innerHTML = html;
-  locationDropdown.classList.add('open');
-
+}
   document.getElementById('currentLocOption').addEventListener('click', useCurrentLocation);
   locationDropdown.querySelectorAll('.location-option[data-lat]').forEach(opt=>{
     opt.addEventListener('click', ()=>{
