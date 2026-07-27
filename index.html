@@ -628,7 +628,23 @@ async function loadNearbyDiscoveries(theme, lat, lng){
       console.error("Category search failed:", e);
     }
 
-   results.forEach(({ cat, places }) => {
+  if(NEEDS_TRANSLATION){
+      try {
+        const toTranslate = [];
+        results.forEach(({ places }) => places.forEach(p => {
+          toTranslate.push(p.name);
+          toTranslate.push(p.address || '');
+        }));
+        const translated = await translateTexts(toTranslate);
+        let i = 0;
+        results.forEach(({ places }) => places.forEach(p => {
+          p.nameOriginal = p.name;
+          p.name = translated[i++] || p.name;
+          p.address = translated[i++] || p.address;
+        }));
+      } catch(e) { /* translation failed — keep Korean */ }
+    }
+    results.forEach(({ cat, places }) => {
       places.filter(place => passesCategoryGuard(cat, place)).forEach(place => {
         const el = document.createElement('div');
         el.className = 'seal-marker';
