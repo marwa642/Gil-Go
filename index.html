@@ -451,7 +451,31 @@ function renderLegend(theme){
     applyFilters();
   });
 }
-  
+// Kakao category tokens a result MUST contain to count for a belt.
+// Key = cat.label (must match exactly). Anything not listed is unfiltered.
+const CATEGORY_GUARD = {
+  "Royal Palaces": ["문화유적", "고궁"],
+  "Buddhist Temples": ["종교시설", "사찰"],
+  "Shrines & Confucian Academies": ["문화유적", "종교시설"],
+  "Fortresses & City Walls": ["문화유적"],
+  "Hanok & Folk Village": ["문화유적", "관광,명소"],
+  "Pottery Class": ["미술,공예", "도자기"],
+  "Traditional Craft Workshop": ["미술,공예"],
+  "Tea Ceremony": ["문화,예술", "카페"],
+  "Galleries": ["미술관", "갤러리", "문화,예술"]
+};
+
+// Categories that can never be a Place/Experience result.
+const CATEGORY_BLOCK = ["음식점", "숙박", "부동산", "병원", "학원 > 입시"];
+
+function passesCategoryGuard(cat, place){
+  const path = place.category || place.category_name || "";
+  if(!path) return false;                                  // no category = reject
+  if(CATEGORY_BLOCK.some(b => path.startsWith(b))) return false;
+  const need = CATEGORY_GUARD[cat.label];
+  if(!need) return true;                                   // no rule = allow
+  return need.some(tok => path.includes(tok));
+}  
   const THEME_SEARCH_KEYWORDS = {
 heritage: [
     { keywords: ["사찰","암자","고찰","산사"], label: "Buddhist Temples", glyph: "⛩", color: "var(--jade)", group: "place" },
@@ -604,8 +628,8 @@ async function loadNearbyDiscoveries(theme, lat, lng){
       console.error("Category search failed:", e);
     }
 
-    results.forEach(({ cat, places }) => {
-      places.forEach(place => {
+   results.forEach(({ cat, places }) => {
+      places.filter(place => passesCategoryGuard(cat, place)).forEach(place => {
         const el = document.createElement('div');
         el.className = 'seal-marker';
         el.style.background = cat.color;
