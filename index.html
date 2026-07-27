@@ -573,6 +573,37 @@ async function loadNearbyDiscoveries(theme, lat, lng){
 
     
 
+    try {
+      const catRes = await fetch("https://gil-and-go-backend.marwahshaikh2001.workers.dev", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ type: "category-search", code: "AT4", lat: lat, lng: lng, radius: 5000, maxPages: 3 })
+      });
+      const catData = await catRes.json();
+      const catPlaces = catData.places || [];
+
+      const potteryCat = categories.find(c => c.label === "Pottery Class");
+      const heritageCat = categories.find(c => c.label === "Royal Palaces");
+
+      catPlaces.forEach(place => {
+        let target = null;
+        if(place.kakaoCategory && place.kakaoCategory.includes("도자기,도예촌")) target = potteryCat;
+        else if(place.kakaoCategory && place.kakaoCategory.includes("문화유적")) target = heritageCat;
+        if(!target) return;
+
+        const bucket = results.find(r => r.cat === target);
+        if(!bucket) return;
+
+        const dup = bucket.places.some(p =>
+          p.name === place.name ||
+          (Math.abs(p.lat - place.lat) < 0.0005 && Math.abs(p.lng - place.lng) < 0.0005)
+        );
+        if(!dup) bucket.places.push(place);
+      });
+    } catch(e){
+      console.error("Category search failed:", e);
+    }
+
     results.forEach(({ cat, places }) => {
       places.forEach(place => {
         const el = document.createElement('div');
