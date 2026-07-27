@@ -469,7 +469,7 @@ const CATEGORY_GUARD = {
 const CATEGORY_BLOCK = ["음식점", "숙박", "부동산", "병원", "학원 > 입시"];
 
 function passesCategoryGuard(cat, place){
-  const path = place.category || place.category_name || "";
+  const path = place.kakaoCategory || "";
   if(!path) return false;                                  // no category = reject
   if(CATEGORY_BLOCK.some(b => path.startsWith(b))) return false;
   const need = CATEGORY_GUARD[cat.label];
