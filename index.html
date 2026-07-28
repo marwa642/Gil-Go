@@ -462,7 +462,8 @@ const CATEGORY_GUARD = {
   "Pottery Class": ["미술,공예", "도자기"],
   "Traditional Craft Workshop": ["미술,공예"],
   "Tea Ceremony": ["문화,예술", "카페"],
-  "Galleries": ["미술관", "갤러리", "문화,예술"]
+  "Galleries": ["미술관", "갤러리", "문화,예술"],
+  "Festivals & Events": ["축제", "행사", "공연", "페스티벌"],
 };
 
 // Categories that can never be a Place/Experience result.
@@ -498,10 +499,12 @@ heritage: [
     { keywords: ["국궁","활쏘기","전통활"], label: "Traditional Archery", glyph: "🏹", color: "var(--cinnabar)", group: "experience" },
     { keywords: ["한복체험","한복대여","한복점"], label: "Hanbok Experience", glyph: "👘", color: "var(--gold)", group: "experience" },
     { keywords: ["찜질방","한증막"], label: "Jjimjilbang Experience", glyph: "♨️", color: "var(--jade)", group: "experience" },
+    { keywords: [], label: "Festivals & Events", glyph: "🎏", color: "var(--cinnabar)", group: "experience", source: "tourapi" },
   ],
     hallyu: [
     { keywords: ["노래방"], label: "Karaoke", glyph: "🎤", color: "var(--indigo)" },
     { keywords: ["댄스학원"], label: "Dance Studio", glyph: "💃", color: "var(--cinnabar)" },
+    { keywords: [], label: "Festivals & Events", glyph: "🎏", color: "var(--cinnabar)", group: "experience", source: "tourapi" },
   ],
   halal: [
     { keywords: ["할랄 음식점"], label: "Halal Restaurant", glyph: "🍽️", color: "var(--jade)" },
