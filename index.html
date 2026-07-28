@@ -431,6 +431,7 @@ function renderLegend(theme){
       legend.querySelectorAll('.legend-row').forEach(row=>{
         row.style.display = (activeGroup==='all' || row.dataset.group===activeGroup) ? '' : 'none';
       });
+        updateDiscoveredCounts();
       legend.querySelectorAll('.lg-group').forEach(h=>{
         h.style.display = (activeGroup==='all' || h.dataset.groupSection===activeGroup) ? '' : 'none';
       });
