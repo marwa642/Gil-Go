@@ -405,7 +405,8 @@ function renderLegend(theme){
     <div class="legend-tab active" data-group="all">All</div>
     <div class="legend-tab" data-group="place">Places</div>
     <div class="legend-tab" data-group="experience">Experiences</div>
-  </div>`;
+      <div class="legend-tab" data-group="event">Events</div>
+    </div>`;
 
   ['place','experience','event'].forEach(group=>{
     const groupItems = items.filter(k=>k.group===group);
