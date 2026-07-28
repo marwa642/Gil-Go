@@ -393,7 +393,7 @@ function applyFilters(){
   }
 }
 let activeGroup = 'all';
-const GROUP_LABELS = { place:"PLACES", experience:"EXPERIENCES" };
+const GROUP_LABELS = { place:"PLACES", experience:"EXPERIENCES", event:"EVENTS & PERFORMANCES" };
 
 function renderLegend(theme){
   activeFilters.clear();
@@ -407,7 +407,7 @@ function renderLegend(theme){
     <div class="legend-tab" data-group="experience">Experiences</div>
   </div>`;
 
-  ['place','experience'].forEach(group=>{
+  ['place','experience','event'].forEach(group=>{
     const groupItems = items.filter(k=>k.group===group);
     if(!groupItems.length) return;
     html += `<div class="lg-title lg-group" data-group-section="${group}">${GROUP_LABELS[group]}</div>`;
