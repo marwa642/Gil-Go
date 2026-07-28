@@ -576,7 +576,9 @@ function updateDiscoveredCounts(){
   });
   legend.querySelectorAll('.legend-row').forEach(row=>{
     const el = row.querySelector('.legend-count');
-    if(el) el.textContent = counts[row.dataset.cat] || 0;
+    const n = counts[row.dataset.cat] || 0;
+        if(el) el.textContent = n;
+        if(row.dataset.group === 'event') row.style.display = n ? '' : 'none';
   });
 }
 async function loadNearbyDiscoveries(theme, lat, lng){
