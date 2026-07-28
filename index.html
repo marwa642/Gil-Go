@@ -630,7 +630,49 @@ async function loadNearbyDiscoveries(theme, lat, lng){
     } catch(e){
       console.error("Category search failed:", e);
     }
+// ---- TourAPI festivals ----
+    const festCat = categories.find(c => c.source === "tourapi");
+    if(festCat){
+      try {
+        const fRes = await fetch("https://gil-and-go-backend.marwahshaikh2001.workers.dev", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ type: "festival-search", lat: lat, lng: lng, radius: 30000 })
+        });
+        const fData = await fRes.json();
+        const all = fData.festivals || [];
 
+        const HALLYU_WORDS = ["콘서트","K-POP","케이팝","아이돌","뮤지컬","공연","버스킹","힙합","밴드","락페","재즈","드라마","팬미팅","EDM","댄스","페스티벌"];
+
+        const wanted = all.filter(f => {
+          const isHallyu = HALLYU_WORDS.some(w => f.name.toUpperCase().includes(w.toUpperCase()));
+          return theme === "hallyu" ? isHallyu : !isHallyu;
+        });
+
+        const fmt = d => d ? `${d.slice(0,4)}.${d.slice(4,6)}.${d.slice(6,8)}` : "";
+
+        const bucket = results.find(r => r.cat === festCat);
+        if(bucket){
+          wanted.forEach(f => {
+            bucket.places.push({
+              name: f.name,
+              address: f.address,
+              lat: f.lat,
+              lng: f.lng,
+              kakaoCategory: "축제",
+              distanceMeters: f.distanceMeters,
+              phone: f.tel,
+              url: "",
+              festivalDates: f.startDate === f.endDate
+                ? fmt(f.startDate)
+                : `${fmt(f.startDate)} – ${fmt(f.endDate)}`
+            });
+          });
+        }
+      } catch(e){
+        console.error("Festival search failed:", e);
+      }
+    }
   if(NEEDS_TRANSLATION){
       try {
         const toTranslate = [];
