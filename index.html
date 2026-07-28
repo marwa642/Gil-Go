@@ -734,7 +734,7 @@ async function loadNearbyDiscoveries(theme, lat, lng){
             desc: place.festivalDates
                 ? `📅 ${place.festivalDates}`
                 : "Automatically found nearby — not yet reviewed by Gil & Go.",
-            source: "Kakao Local Search",
+            source: place.festivalDates ? "Korea Tourism Organization (TourAPI)" : "Kakao Local Search",
             url: place.url,
             lat: place.lat,
             lng: place.lng,
