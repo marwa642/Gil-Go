@@ -714,7 +714,9 @@ async function loadNearbyDiscoveries(theme, lat, lng){
             name: place.name,
             category: `${cat.label} (auto-discovered)`,
             address: place.address,
-            desc: "Automatically found nearby — not yet reviewed by Gil & Go.",
+            desc: place.festivalDates
+                ? `📅 ${place.festivalDates}`
+                : "Automatically found nearby — not yet reviewed by Gil & Go.",
             source: "Kakao Local Search",
             url: place.url,
             lat: place.lat,
