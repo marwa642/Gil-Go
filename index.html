@@ -217,11 +217,45 @@
   body[data-theme="hallyu"] .empty-hint{ border-radius:12px; }
 
   @media (max-width:640px){
+    .brand{ padding:8px 10px; }
     .brand .tagline{display:none;}
-    .legend{display:none;}
-    .drawer{width:100vw;}
-    .routebar{flex-wrap:wrap; top:auto; bottom:78px; left:18px; right:18px;}
+    .brand .name{font-size:15px;}
+
+    /* belt tabs: one scrollable row */
+    .themes{
+      left:0; right:0; top:8px;
+      display:flex; flex-wrap:nowrap;
+      overflow-x:auto; -webkit-overflow-scrolling:touch;
+      gap:6px; padding:0 10px; justify-content:flex-start;
+      scrollbar-width:none;
+    }
+    .themes::-webkit-scrollbar{display:none;}
+    .theme-pill{flex:0 0 auto; font-size:12px; padding:7px 12px;}
+
+    /* search bar pinned under the tabs */
+    .routebar{
+      flex-wrap:wrap; top:56px; bottom:auto;
+      left:10px; right:10px;
+    }
     .location-wrap{width:100%;}
+
+    /* legend becomes a bottom sheet */
+    .legend{
+      display:block;
+      top:auto; bottom:0; left:0; right:0;
+      width:auto; max-height:42vh;
+      border-radius:12px 12px 0 0;
+      border-left:none; border-right:none; border-bottom:none;
+      padding:12px 14px 20px;
+      overflow-y:auto;
+      box-shadow:0 -4px 18px rgba(0,0,0,0.18);
+    }
+    .legend-row{padding:10px 8px; font-size:14px;}
+
+    /* drawer covers the screen */
+    .drawer{width:100vw; max-width:100vw;}
+
+    .empty-hint{display:none;}
   }
 </style>
 </head>
