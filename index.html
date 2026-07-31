@@ -432,8 +432,8 @@ const GROUP_LABELS = { place:"PLACES", experience:"EXPERIENCES", event:"EVENTS &
 function renderLegend(theme){
   activeFilters.clear();
   activeGroup = 'all';
-  if(theme !== 'heritage'){ legend.innerHTML=''; return; }
-  const items = THEME_SEARCH_KEYWORDS.heritage;
+  const items = THEME_SEARCH_KEYWORDS[theme];
+  if(!items){ legend.innerHTML=''; return; }
 
   let html = `<div class="legend-tabs">
     <div class="legend-tab active" data-group="all">All</div>
