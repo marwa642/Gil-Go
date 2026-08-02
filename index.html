@@ -516,7 +516,7 @@ function passesCategoryGuard(cat, place){
   if(!need) return true;                                   // no rule = allow
   return need.some(tok => path.includes(tok));
 }  
-  const THEME_SEARCH_KEYWORDS = {
+  var THEME_SEARCH_KEYWORDS = {
 heritage: [
     { keywords: ["사찰","암자","고찰","산사"], label: "Buddhist Temples", glyph: "⛩", color: "var(--jade)", group: "place" },
     { keywords: ["궁궐","고궁","행궁"], label: "Royal Palaces", glyph: "宮", color: "var(--indigo)", group: "place" },
