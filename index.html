@@ -427,7 +427,7 @@ function applyFilters(){
   }
 }
 let activeGroup = 'all';
-const GROUP_LABELS = { place:"PLACES", experience:"EXPERIENCES", event:"EVENTS & PERFORMANCES" };
+const GROUP_LABELS = { place:"PLACES", experience:"EXPERIENCES", event:"MUSIC SHOWS & EVENTS", info:"INFO" };
 
 function renderLegend(theme){
   activeFilters.clear();
@@ -435,14 +435,17 @@ function renderLegend(theme){
   const items = THEME_SEARCH_KEYWORDS[theme];
   if(!items){ legend.innerHTML=''; return; }
 
-  let html = `<div class="legend-tabs">
-    <div class="legend-tab active" data-group="all">All</div>
-    <div class="legend-tab" data-group="place">Places</div>
-    <div class="legend-tab" data-group="experience">Experiences</div>
-      <div class="legend-tab" data-group="event">Events</div>
-    </div>`;
+  const GROUP_ORDER = ['place','experience','event','info'];
+  const presentGroups = GROUP_ORDER.filter(g => items.some(k => k.group === g));
 
-  ['place','experience','event'].forEach(group=>{
+  let html = `<div class="legend-tabs">
+    <div class="legend-tab active" data-group="all">All</div>`;
+  presentGroups.forEach(g=>{
+    html += `<div class="legend-tab" data-group="${g}">${GROUP_LABELS[g]}</div>`;
+  });
+  html += `</div>`;
+
+  presentGroups.forEach(group=>{
     const groupItems = items.filter(k=>k.group===group);
     if(!groupItems.length) return;
     html += `<div class="lg-title lg-group" data-group-section="${group}">${GROUP_LABELS[group]}</div>`;
