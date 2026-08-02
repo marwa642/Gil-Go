@@ -4,6 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Gil &amp; Go — Korea, off script</title>
+  <script>
+window.onerror = function(m, s, l) {
+  document.body.insertAdjacentHTML('afterbegin',
+    '<div style="background:red;color:#fff;padding:12px;font-size:15px;position:relative;z-index:9999">'
+    + m + ' — line ' + l + '</div>');
+};
+</script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=01c05bc352475b935f589e35656e4baf&libraries=services"></script>
 <style>
   :root{
