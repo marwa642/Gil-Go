@@ -38,15 +38,29 @@ window.onerror = function(m, s, l) {
     background: linear-gradient(150deg, #ffd9a8 0%, #ffb3c6 32%, #d9b3e8 62%, #9fc3ef 100%);
     background-attachment: fixed;
   }
+  body[data-theme="halal"]{
+    --ink:#132318;
+    --hanji:#eef8f1;
+    --hanji-deep:#dcefe1;
+    --cinnabar:#1f8a4c;
+    --indigo:#0f6b39;
+    --jade:#2fae62;
+    --gold:#c9a227;
+    --line: rgba(15,60,35,0.16);
+  }
   body[data-theme="skincare"]{
-    --ink:#4a3540;
-    --hanji:#fdf6f4;
-    --hanji-deep:#f5e6e3;
-    --cinnabar:#c4788a;
-    --indigo:#8b6b7d;
-    --jade:#d4a5a5;
-    --gold:#b8927d;
-    --line: rgba(74,53,64,0.14);
+    --ink:#4a2b2b;
+    --hanji:#fbeae6;
+    --hanji-deep:#f2cfc6;
+    --cinnabar:#c96f5c;
+    --indigo:#a35d54;
+    --jade:#e0a091;
+    --gold:#d99a7c;
+    --line: rgba(74,43,43,0.16);
+  }
+  body[data-theme="skincare"]{
+    background: linear-gradient(150deg, #fbeae6 0%, #f2cfc6 35%, #e8b5a5 65%, #d99a7c 100%);
+    background-attachment: fixed;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;height:100%;font-family:ui-sans-serif,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--hanji); transition:var(--transition);}
