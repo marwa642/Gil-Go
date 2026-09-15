@@ -61,13 +61,13 @@
   ];
 
   THEME_SEARCH_KEYWORDS.lodging = [
-    { keywords: ["고택숙박","고택체험","한옥민박","전통한옥숙박","종갓집"], label: "Traditional Stay", glyph: "🏯", color: "var(--jade)", group: "place" },
+    { keywords: ["한옥스테이","한옥게스트하우스","한옥호텔","한옥숙소","한옥민박"], label: "Hanok Stay", glyph: "🏯", color: "var(--jade)", group: "place" },
     { keywords: ["게스트하우스"], label: "Guesthouses", glyph: "🛎️", color: "var(--cinnabar)", group: "place" },
     { keywords: ["호스텔","백패커스"], label: "Hostels", glyph: "🎒", color: "var(--indigo)", group: "place" },
     { keywords: ["호텔","비즈니스호텔"], label: "Hotels", glyph: "🛏️", color: "var(--gold)", group: "place" },
-    { keywords: ["캡슐호텔","캡슐"], label: "Capsule Hotels", glyph: "🚪", color: "var(--indigo)", group: "place" },
+    { keywords: ["캡슐호텔"], label: "Capsule Hotels", glyph: "🚪", color: "var(--indigo)", group: "place" },
     { keywords: ["캠핑장","글램핑","카라반","오토캠핑"], label: "Camping & Glamping", glyph: "⛺", color: "var(--jade)", group: "place" },
-    { keywords: ["찜질방","한증막"], label: "Jjimjilbang Overnight", glyph: "♨️", color: "var(--gold)", group: "place" }
+    { keywords: ["찜질방","한증막","24시찜질방"], label: "Jjimjilbang & Sauna", glyph: "♨️", color: "var(--gold)", group: "place" }
   ];
 
   const BELT_ORDER = ["heritage", "hallyu", "skincare", "ktaste", "lodging"];
@@ -102,12 +102,20 @@
 
   // Kakao files motels as 숙박 > 모텔 regardless of what the shop
   // calls itself, so filtering on the path keeps love motels out.
+  // Kakao's category tree can't tell a capsule hotel from a hotel, so
+  // for these rows the shop name has to carry the word itself.
+  const STAY_NAME_REQUIRE = {
+    "Capsule Hotels": ["캡슐"],
+    "Hanok Stay": ["한옥"],
+    "Hostels": ["호스텔", "hostel", "Hostel", "게스트하우스"]
+  };
+
   const STAY_ROW_GUARD = {
     "Hotels":          { require: ["호텔"], exclude: ["모텔"] },
     "Guesthouses":     { require: ["게스트하우스", "민박", "펜션"], exclude: ["모텔"] },
     "Hostels":         { require: ["호스텔", "게스트하우스"], exclude: ["모텔"] },
     "Capsule Hotels":  { require: ["호텔"], exclude: ["모텔"] },
-    "Traditional Stay":{ require: ["숙박", "한옥", "민박"], exclude: ["모텔"] }
+    "Hanok Stay":      { require: ["숙박"], exclude: ["모텔"] }
   };
 
   window.passesCategoryGuard = function (cat, place) {
@@ -123,6 +131,11 @@
       if (rule) {
         if (rule.exclude.some(tok => path.includes(tok))) return false;
         if (!rule.require.some(tok => path.includes(tok))) return false;
+      }
+      const nameNeed = STAY_NAME_REQUIRE[cat.label];
+      if (nameNeed) {
+        const nm = place.nameOriginal || place.name || "";
+        if (!nameNeed.some(tok => nm.includes(tok))) return false;
       }
     }
     const need = CATEGORY_GUARD[cat.label];
