@@ -29,20 +29,36 @@
   };
 
   THEME_SEARCH_KEYWORDS.ktaste = [
-    { keywords: ["삼겹살","고기집","갈비","한우","돼지갈비"], label: "Korean BBQ", glyph: "🥩", color: "var(--cinnabar)", group: "place" },
-    { keywords: ["국밥","순대국","설렁탕","곰탕","해장국"], label: "Soups & Stews", glyph: "🍲", color: "var(--gold)", group: "place" },
-    { keywords: ["냉면","칼국수","막국수","국수집"], label: "Noodle Houses", glyph: "🍜", color: "var(--indigo)", group: "place" },
-    { keywords: ["치킨","호프","닭강정"], label: "Chicken & Beer", glyph: "🍗", color: "var(--gold)", group: "place" },
-    { keywords: ["분식","떡볶이","김밥","포장마차"], label: "Street Food & Bunsik", glyph: "🍢", color: "var(--cinnabar)", group: "place" },
-    { keywords: ["횟집","물회","해산물"], label: "Seafood & Hoe", glyph: "🐟", color: "var(--jade)", group: "place" },
-    { keywords: ["사찰음식","채식식당","비건식당"], label: "Temple Food & Vegetarian", glyph: "🥬", color: "var(--jade)", group: "place" },
-    { keywords: ["전통찻집","한옥카페"], label: "Traditional Tea Houses", glyph: "🍵", color: "var(--jade)", group: "place" },
-    { keywords: ["막걸리","전통주","포차"], label: "Makgeolli & Soju Bars", glyph: "🍶", color: "var(--indigo)", group: "place" },
-    { keywords: ["디저트카페","베이커리","한과"], label: "Dessert & Bakery", glyph: "🍮", color: "var(--gold)", group: "place" },
-    { keywords: ["전통시장","먹자골목"], label: "Market Food Streets", glyph: "🏮", color: "var(--cinnabar)", group: "place" },
-    { keywords: ["요리교실","쿠킹클래스","김치만들기","떡만들기"], label: "Cooking Class", glyph: "🍳", color: "var(--indigo)", group: "experience" },
-    { keywords: ["막걸리만들기","전통주체험","양조장"], label: "Brewery & Makgeolli Class", glyph: "🍾", color: "var(--gold)", group: "experience" },
-    { keywords: [], label: "Food Festivals", glyph: "🎪", color: "var(--cinnabar)", group: "event", source: "tourapi", match: ["음식","맛","먹거리","식품","막걸리","김치"] }
+    // ---- Restaurants ----
+    { keywords: ["삼계탕","백숙"], label: "Samgyetang", glyph: "🍲", color: "var(--gold)", group: "place" },
+    { keywords: ["닭갈비"], label: "Dakgalbi", glyph: "🐔", color: "var(--cinnabar)", group: "place" },
+    { keywords: ["삼겹살","오겹살"], label: "Samgyeopsal", glyph: "🥓", color: "var(--cinnabar)", group: "place" },
+    { keywords: ["국밥","돼지국밥","순대국밥","설렁탕","곰탕"], label: "Gukbap", glyph: "🍜", color: "var(--gold)", group: "place" },
+    { keywords: ["비빔밥","돌솥비빔밥"], label: "Bibimbap", glyph: "🥘", color: "var(--jade)", group: "place" },
+    { keywords: ["냉면","밀면","막국수"], label: "Naengmyeon", glyph: "🍢", color: "var(--indigo)", group: "place" },
+    { keywords: ["떡볶이","분식"], label: "Tteokbokki", glyph: "🌶️", color: "var(--cinnabar)", group: "place" },
+    { keywords: ["고기집","갈비","한우","소고기구이","숯불구이"], label: "Korean BBQ", glyph: "🥩", color: "var(--cinnabar)", group: "place" },
+    { keywords: ["횟집","해산물","조개구이","물회","대게"], label: "Seafood", glyph: "🦐", color: "var(--jade)", group: "place" },
+    { keywords: ["치킨","닭강정","후라이드"], label: "Korean Fried Chicken", glyph: "🍗", color: "var(--gold)", group: "place" },
+    { keywords: ["포장마차","길거리음식","시장먹거리","호떡","어묵"], label: "Street Food", glyph: "🍡", color: "var(--cinnabar)", group: "place" },
+
+    // ---- Cafes ----
+    { keywords: ["이디야","메가커피","컴포즈커피","파리바게뜨","탐앤탐스","할리스","빽다방","파스쿠찌","뚜레쥬르"], label: "Local Chain Coffee & Bakery", glyph: "☕", color: "var(--gold)", group: "cafe" },
+    { keywords: ["애견카페","고양이카페","펫카페","강아지카페"], label: "Pet Cafe", glyph: "🐾", color: "var(--jade)", group: "cafe" },
+    { keywords: ["빈티지카페","레트로카페","옛날카페","고재카페"], label: "Vintage Cafe", glyph: "📻", color: "var(--gold)", group: "cafe" },
+    { keywords: ["한옥카페","고택카페","전통카페"], label: "Hanok Cafe", glyph: "🏯", color: "var(--jade)", group: "cafe" },
+    { keywords: ["대형카페","프리미엄카페","베이커리카페대형"], label: "Luxury Cafe", glyph: "✨", color: "var(--indigo)", group: "cafe" },
+    { keywords: ["오션뷰카페","바다뷰카페","해변카페","바다카페"], label: "Ocean View Cafe", glyph: "🌊", color: "var(--indigo)", group: "cafe" },
+    { keywords: ["공방카페","체험카페","클래스카페","가죽공방카페"], label: "Workshop Cafe", glyph: "🧵", color: "var(--cinnabar)", group: "cafe" },
+    { keywords: ["루프탑카페","옥상카페"], label: "Rooftop Cafe", glyph: "🏙️", color: "var(--indigo)", group: "cafe" },
+    { keywords: ["정원카페","숲카페","식물카페","온실카페","플랜테리어카페"], label: "Nature & Garden Cafe", glyph: "🌿", color: "var(--jade)", group: "cafe" },
+    { keywords: ["디저트카페","케이크카페","마카롱","타르트"], label: "Dessert Cafe", glyph: "🍰", color: "var(--cinnabar)", group: "cafe" },
+    { keywords: ["전통찻집","찻집","다원","한방차"], label: "Traditional Tea Cafe", glyph: "🍵", color: "var(--jade)", group: "cafe" },
+    { keywords: ["베이커리카페","빵집","제과점"], label: "Bakery Cafe", glyph: "🥐", color: "var(--gold)", group: "cafe" },
+    { keywords: ["캐릭터카페","테마카페","만화카페"], label: "Character Cafe", glyph: "🧸", color: "var(--cinnabar)", group: "cafe" },
+
+    // ---- Events ----
+    { keywords: [], label: "Food Festivals", glyph: "🎪", color: "var(--cinnabar)", group: "event", source: "tourapi", match: ["음식","맛","먹거리","식품","막걸리","김치","커피","빵"] }
   ];
 
   THEME_SEARCH_KEYWORDS.lodging = [
@@ -179,9 +195,16 @@
   // ---------------------------------------------------------------
   const GROUP_KEY = {
     place: "section_places",
+    cafe: "section_cafes",
     experience: "section_experiences",
     event: "section_events",
     info: "section_all"
+  };
+
+  // Some belts rename their sections.
+  const BELT_GROUP_LABELS = {
+    ktaste: { place: "Restaurants", cafe: "Cafes", event: "Food Festivals" },
+    lodging: { place: "Places to Stay" }
   };
 
   window.renderLegend = function (theme) {
@@ -190,11 +213,13 @@
     const items = THEME_SEARCH_KEYWORDS[theme];
     if (!items) { legend.innerHTML = ""; return; }
 
-    const GROUP_ORDER = ["place", "experience", "event", "info"];
+    const GROUP_ORDER = ["place", "cafe", "experience", "event", "info"];
     const present = GROUP_ORDER.filter(g => items.some(k => k.group === g));
-    const gLabel = g => tr(GROUP_KEY[g], GROUP_LABELS[g]);
+    const override = BELT_GROUP_LABELS[theme] || {};
+    const gLabel = g => override[g] || tr(GROUP_KEY[g], GROUP_LABELS[g]);
 
-    let html = `<div class="legend-tabs"><div class="legend-tab active" data-group="all">${tr("section_all", "All")}</div>`;
+    let html = (theme === "ktaste") ? dietToggleHTML() : "";
+    html += `<div class="legend-tabs"><div class="legend-tab active" data-group="all">${tr("section_all", "All")}</div>`;
     present.forEach(g => {
       html += `<div class="legend-tab" data-group="${g}">${gLabel(g)}</div>`;
     });
@@ -214,6 +239,7 @@
     });
     html += `<button class="legend-clear" id="legendClearBtn">${tr("retry", "Clear filters")}</button>`;
     legend.innerHTML = html;
+    if (theme === "ktaste") wireDietToggles();
 
     legend.querySelectorAll(".legend-tab").forEach(tab => {
       tab.addEventListener("click", () => {
@@ -355,6 +381,92 @@
       if (!localStorage.getItem("gilgo_belt")) buildBeltGate();
     };
   }
+
+
+  // ---------------------------------------------------------------
+  // 10. Dietary toggles (K-Taste belt only)
+  //     These do not filter existing results — no such field exists
+  //     in the data. They change WHAT gets searched.
+  // ---------------------------------------------------------------
+  const DIET_ROWS = {
+    halal: [
+      { keywords: ["할랄음식점","할랄레스토랑","할랄인증"], label: "Halal Certified", glyph: "🕌", color: "var(--jade)", group: "place" },
+      { keywords: ["무슬림음식","아랍음식","중동음식"], label: "Muslim-Friendly", glyph: "🍽️", color: "var(--gold)", group: "place" },
+      { keywords: ["케밥","터키음식"], label: "Turkish & Kebab", glyph: "🥙", color: "var(--cinnabar)", group: "place" },
+      { keywords: ["인도음식","파키스탄음식","우즈베키스탄음식"], label: "South & Central Asian", glyph: "🍛", color: "var(--indigo)", group: "place" },
+      { keywords: ["할랄마트","이슬람마트","수입식품점"], label: "Halal Grocery", glyph: "🛒", color: "var(--gold)", group: "place" }
+    ],
+    veg: [
+      { keywords: ["사찰음식","사찰음식점"], label: "Temple Cuisine", glyph: "🪷", color: "var(--jade)", group: "place" },
+      { keywords: ["비건식당","비건레스토랑"], label: "Vegan Restaurants", glyph: "🌱", color: "var(--jade)", group: "place" },
+      { keywords: ["채식식당","채식뷔페","베지테리언"], label: "Vegetarian Restaurants", glyph: "🥗", color: "var(--gold)", group: "place" },
+      { keywords: ["비건카페","비건베이커리"], label: "Vegan Cafes & Bakeries", glyph: "🧁", color: "var(--cinnabar)", group: "cafe" }
+    ]
+  };
+
+  const diet = { halal: false, veg: false };
+  const KTASTE_FULL = THEME_SEARCH_KEYWORDS.ktaste.slice();
+
+  function applyDiet() {
+    if (!diet.halal && !diet.veg) {
+      THEME_SEARCH_KEYWORDS.ktaste = KTASTE_FULL.slice();
+    } else {
+      const rows = [];
+      if (diet.halal) rows.push(...DIET_ROWS.halal);
+      if (diet.veg) rows.push(...DIET_ROWS.veg);
+      // Keep cafes and festivals, drop the meat-forward restaurant rows.
+      rows.push(...KTASTE_FULL.filter(r => r.group === "cafe" || r.group === "event"));
+      THEME_SEARCH_KEYWORDS.ktaste = rows;
+    }
+    renderLegend("ktaste");
+    if (lastSearch) loadNearbyDiscoveries("ktaste", lastSearch.lat, lastSearch.lng);
+  }
+
+  // Remember where the last search happened so a toggle can re-run it.
+  let lastSearch = null;
+  const origLoadNearby = loadNearbyDiscoveries;
+  window.loadNearbyDiscoveries = function (theme, lat, lng) {
+    lastSearch = { lat, lng };
+    return origLoadNearby(theme, lat, lng);
+  };
+
+  function dietToggleHTML() {
+    return `<div class="gilgoDiet">
+      <label class="gilgoDietRow">
+        <span>🕌 Halal only</span>
+        <input type="checkbox" id="dietHalal" ${diet.halal ? "checked" : ""}>
+        <span class="gilgoSwitch"></span>
+      </label>
+      <label class="gilgoDietRow">
+        <span>🌱 Vegetarian only</span>
+        <input type="checkbox" id="dietVeg" ${diet.veg ? "checked" : ""}>
+        <span class="gilgoSwitch"></span>
+      </label>
+    </div>`;
+  }
+
+  function wireDietToggles() {
+    const h = document.getElementById("dietHalal");
+    const v = document.getElementById("dietVeg");
+    if (h) h.addEventListener("change", e => { diet.halal = e.target.checked; applyDiet(); });
+    if (v) v.addEventListener("change", e => { diet.veg = e.target.checked; applyDiet(); });
+  }
+
+  const dietCss = document.createElement("style");
+  dietCss.textContent = `
+    .gilgoDiet{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+    .gilgoDietRow{display:flex;align-items:center;gap:10px;padding:7px 4px;
+      font-size:13px;font-weight:600;cursor:pointer}
+    .gilgoDietRow span:first-child{flex:1}
+    .gilgoDietRow input{display:none}
+    .gilgoSwitch{width:38px;height:22px;border-radius:999px;background:var(--line);
+      position:relative;flex:none;transition:background .2s}
+    .gilgoSwitch::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;
+      border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .2s}
+    .gilgoDietRow input:checked + .gilgoSwitch{background:var(--jade)}
+    .gilgoDietRow input:checked + .gilgoSwitch::after{left:18px}
+  `;
+  document.head.appendChild(dietCss);
 
   // ---------------------------------------------------------------
   // 9. Wire up
