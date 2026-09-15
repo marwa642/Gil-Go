@@ -47,7 +47,6 @@
     { keywords: ["애견카페","고양이카페","펫카페","강아지카페"], label: "Pet Cafe", glyph: "🐾", color: "var(--jade)", group: "cafe" },
     { keywords: ["빈티지카페","레트로카페","옛날카페","고재카페"], label: "Vintage Cafe", glyph: "📻", color: "var(--gold)", group: "cafe" },
     { keywords: ["한옥카페","고택카페","전통카페"], label: "Hanok Cafe", glyph: "🏯", color: "var(--jade)", group: "cafe" },
-    { keywords: ["대형카페","프리미엄카페","베이커리카페대형"], label: "Luxury Cafe", glyph: "✨", color: "var(--indigo)", group: "cafe" },
     { keywords: ["오션뷰카페","바다뷰카페","해변카페","바다카페"], label: "Ocean View Cafe", glyph: "🌊", color: "var(--indigo)", group: "cafe" },
     { keywords: ["공방카페","체험카페","클래스카페","가죽공방카페"], label: "Workshop Cafe", glyph: "🧵", color: "var(--cinnabar)", group: "cafe" },
     { keywords: ["루프탑카페","옥상카페"], label: "Rooftop Cafe", glyph: "🏙️", color: "var(--indigo)", group: "cafe" },
@@ -62,14 +61,13 @@
   ];
 
   THEME_SEARCH_KEYWORDS.lodging = [
-    { keywords: ["한옥스테이","한옥게스트하우스","전통한옥"], label: "Hanok Stay", glyph: "🏯", color: "var(--jade)", group: "place" },
-    { keywords: ["템플스테이"], label: "Temple Stay", glyph: "🧘", color: "var(--jade)", group: "place" },
-    { keywords: ["게스트하우스","호스텔"], label: "Guesthouses & Hostels", glyph: "🎒", color: "var(--gold)", group: "place" },
-    { keywords: ["호텔","비즈니스호텔"], label: "Hotels", glyph: "🏨", color: "var(--indigo)", group: "place" },
-    { keywords: ["펜션","리조트","풀빌라"], label: "Pensions & Resorts", glyph: "🏝️", color: "var(--cinnabar)", group: "place" },
-    { keywords: ["캠핑장","글램핑","오토캠핑"], label: "Camping & Glamping", glyph: "⛺", color: "var(--jade)", group: "place" },
-    { keywords: ["찜질방","한증막"], label: "Jjimjilbang Overnight", glyph: "♨️", color: "var(--gold)", group: "place" },
-    { keywords: ["모텔","캡슐호텔"], label: "Budget Stays", glyph: "🛏️", color: "var(--indigo)", group: "place" }
+    { keywords: ["고택숙박","고택체험","한옥민박","전통한옥숙박","종갓집"], label: "Traditional Stay", glyph: "🏯", color: "var(--jade)", group: "place" },
+    { keywords: ["게스트하우스"], label: "Guesthouses", glyph: "🛎️", color: "var(--cinnabar)", group: "place" },
+    { keywords: ["호스텔","백패커스"], label: "Hostels", glyph: "🎒", color: "var(--indigo)", group: "place" },
+    { keywords: ["호텔","비즈니스호텔"], label: "Hotels", glyph: "🛏️", color: "var(--gold)", group: "place" },
+    { keywords: ["캡슐호텔","캡슐"], label: "Capsule Hotels", glyph: "🚪", color: "var(--indigo)", group: "place" },
+    { keywords: ["캠핑장","글램핑","카라반","오토캠핑"], label: "Camping & Glamping", glyph: "⛺", color: "var(--jade)", group: "place" },
+    { keywords: ["찜질방","한증막"], label: "Jjimjilbang Overnight", glyph: "♨️", color: "var(--gold)", group: "place" }
   ];
 
   const BELT_ORDER = ["heritage", "hallyu", "skincare", "ktaste", "lodging"];
@@ -97,12 +95,36 @@
     lodging:  ["음식점"]
   };
 
+  // A cafe row must return something Kakao actually files as a cafe.
+  // Bakeries sit under 간식 > 제과, so they are allowed too.
+  const CAFE_TOKENS = ["카페", "제과", "베이커리"];
+  const STAY_TOKENS = ["숙박", "찜질방", "목욕탕", "캠핑", "야영"];
+
+  // Kakao files motels as 숙박 > 모텔 regardless of what the shop
+  // calls itself, so filtering on the path keeps love motels out.
+  const STAY_ROW_GUARD = {
+    "Hotels":          { require: ["호텔"], exclude: ["모텔"] },
+    "Guesthouses":     { require: ["게스트하우스", "민박", "펜션"], exclude: ["모텔"] },
+    "Hostels":         { require: ["호스텔", "게스트하우스"], exclude: ["모텔"] },
+    "Capsule Hotels":  { require: ["호텔"], exclude: ["모텔"] },
+    "Traditional Stay":{ require: ["숙박", "한옥", "민박"], exclude: ["모텔"] }
+  };
+
   window.passesCategoryGuard = function (cat, place) {
     const path = place.kakaoCategory || "";
     if (!path) return false;
     if (GLOBAL_BLOCK.some(b => path.startsWith(b))) return false;
     const beltBlock = BELT_BLOCK[currentTheme] || [];
     if (beltBlock.some(b => path.startsWith(b))) return false;
+    if (cat.group === "cafe" && !CAFE_TOKENS.some(tok => path.includes(tok))) return false;
+    if (currentTheme === "lodging") {
+      if (!STAY_TOKENS.some(tok => path.includes(tok))) return false;
+      const rule = STAY_ROW_GUARD[cat.label];
+      if (rule) {
+        if (rule.exclude.some(tok => path.includes(tok))) return false;
+        if (!rule.require.some(tok => path.includes(tok))) return false;
+      }
+    }
     const need = CATEGORY_GUARD[cat.label];
     if (!need) return true;
     return need.some(tok => path.includes(tok));
