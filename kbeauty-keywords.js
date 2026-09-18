@@ -17,8 +17,16 @@
       allow: [], block: TRADE },
 
     { label: "Other Beauty Stores", glyph: "🧺", color: "var(--gold)", group: "place",
-      keywords: ["화장품판매점", "화장품매장", "뷰티편집샵", "지하상가", "cosmetics shop", "underground shopping"],
-      allow: ["화장품", "뷰티", "잡화", "상가"], block: TRADE.concat(["올리브영", "시코르", "주차장", "관리사무소"]) },
+      keywords: ["화장품판매점", "화장품매장", "화장품가게", "뷰티편집샵", "cosmetics shop"],
+      allow: ["화장품"],                       // Kakao category must be cosmetics
+      block: TRADE.concat(["올리브영", "시코르", "아리따움", "은행", "ATM", "365",
+                           "보험", "부동산", "주차", "관리사무소", "약국", "편의점"]) },
+
+    { label: "Underground Shopping Arcades", glyph: "🚇", color: "var(--jade)", group: "place",
+      keywords: ["지하상가", "지하도상가"],
+      allow: ["상가", "쇼핑"],
+      block: TRADE.concat(["은행", "ATM", "365", "보험", "주차", "관리사무소", "출입구"]),
+      require: ["지하상가", "지하도상가"] },
 
     { label: "Facial Care Brands", glyph: "💧", color: "var(--jade)", group: "place",
       keywords: ["설화수", "이니스프리", "라네즈", "메디큐브", "편강율", "스킨1004", "믹순", "스타일난다",
@@ -65,9 +73,11 @@
       keywords: ["피부과", "피부과의원", "dermatology"],
       allow: ["병원", "의원", "피부"], block: ["약국", "동물"] },
 
-    { label: "Pharmacies", glyph: "💊", color: "var(--indigo)", group: "place",
-      keywords: ["약국", "pharmacy"],
-      allow: ["약국", "의약"], block: ["도매", "제조", "본사", "동물"] },
+    { label: "Skincare Pharmacies", glyph: "💊", color: "var(--indigo)", group: "place",
+      keywords: ["드럭스토어", "pharmacy", "drugstore", "관광약국", "면세약국", "약국"],
+      allow: ["약국", "의약", "화장품"], block: ["도매", "제조", "본사", "동물", "한약방"],
+      // keep only pharmacies that look foreigner-facing
+      require: ["드럭", "짱", "관광", "면세", "외국인", "웰니스", "뷰티", "메디"], requireLatin: true },
 
     { label: "Cosmetic Making Class", glyph: "🧪", color: "var(--jade)", group: "experience",
       keywords: ["화장품만들기체험", "천연화장품만들기", "DIY화장품",
@@ -119,6 +129,11 @@
     const name = place.place_name || "";
     if (row.allow.length && !row.allow.some(t => path.includes(t))) return false;
     if (row.block.some(t => path.includes(t) || name.includes(t))) return false;
+    if (row.require) {
+      const hit = row.require.some(t => name.includes(t)) ||
+                  (row.requireLatin && /[A-Za-z]{3,}/.test(name));
+      if (!hit) return false;
+    }
     return true;
   }
 
