@@ -66,9 +66,17 @@
   // ---------------------------------------------------------------
   // 2. Find the map, remember the last search point
   // ---------------------------------------------------------------
+  let foundMap = null;
   function getMap() {
-    try { if (typeof map !== "undefined" && map && map.setCenter) return map; } catch (e) {}
-    return window.map || window.kakaoMap || window.gilgoMap || null;
+    if (foundMap) return foundMap;
+    try { if (typeof map !== "undefined" && map && map.getCenter) foundMap = map; } catch (e) {}
+    if (!foundMap) foundMap = window.map || window.kakaoMap || window.gilgoMap || null;
+    if (!foundMap && window.kakao && kakao.maps && kakao.maps.Map) {
+      for (const k in window) {
+        try { if (window[k] instanceof kakao.maps.Map) { foundMap = window[k]; break; } } catch (e) {}
+      }
+    }
+    return foundMap;
   }
 
   let lastPoint = null;
@@ -82,7 +90,12 @@
   }
 
   function isHallyu() {
-    try { return typeof currentTheme !== "undefined" && currentTheme === "hallyu"; } catch (e) { return false; }
+    const d = document.body && document.body.dataset && document.body.dataset.theme;
+    if (d) return d === "hallyu";
+    const a = document.body && document.body.getAttribute("data-theme");
+    if (a) return a === "hallyu";
+    try { if (typeof currentTheme !== "undefined") return currentTheme === "hallyu"; } catch (e) {}
+    return true;   // can't tell which belt — show the button anyway
   }
 
   // ---------------------------------------------------------------
@@ -259,6 +272,8 @@
     if (!on && panelOpen) closePanel();
   }, 700);
 
-  console.log("[fan-spots] loaded:", SPOTS.length, "spots; map found:", !!getMap(),
-              "; services:", !!(window.kakao && kakao.maps && kakao.maps.services));
+  window.gfOpen = openPanel;   // type gfOpen() in the console to force it open
+  console.log("[fan-spots] loaded:", SPOTS.length, "spots | map:", !!getMap(),
+              "| services:", !!(window.kakao && kakao.maps && kakao.maps.services),
+              "| theme:", document.body.getAttribute("data-theme"));
 })();
