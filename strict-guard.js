@@ -109,6 +109,7 @@
   const origGuard = window.passesCategoryGuard;
 
   window.passesCategoryGuard = function (...args) {
+  args.forEach(a => { if (a && typeof a === "object" && "kakaoCategory" in a) { if (!("category_name" in a)) a.category_name = a.kakaoCategory || ""; if (!("place_name" in a) && a.name) a.place_name = a.name; } });
     const place = args.find(a => a && typeof a === "object" &&
       ("category_name" in a || "place_name" in a || "kakaoCategory" in a));
     let label = null;
