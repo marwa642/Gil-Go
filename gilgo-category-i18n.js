@@ -111,7 +111,60 @@ const GILGO_I18N = {
   "Hotels":                { ko:"호텔", zh:"酒店", ja:"ホテル", ru:"Отели", es:"Hoteles", fr:"Hôtels", vi:"Khách sạn", th:"โรงแรม" },
   "Pensions & Resorts":    { ko:"펜션·리조트", zh:"度假民宿与度假村", ja:"ペンション・リゾート", ru:"Пансионаты и курорты", es:"Pensiones y resorts", fr:"Pensions et resorts", vi:"Pension & khu nghỉ dưỡng", th:"เพนชันและรีสอร์ท" },
   "Camping & Glamping":    { ko:"캠핑·글램핑", zh:"露营与豪华露营", ja:"キャンプ・グランピング", ru:"Кемпинг и глэмпинг", es:"Camping y glamping", fr:"Camping et glamping", vi:"Cắm trại & glamping", th:"แคมปิ้งและแกลมปิ้ง" },
-  "Budget Stays":          { ko:"가성비 숙소", zh:"经济型住宿", ja:"格安宿", ru:"Бюджетное жильё", es:"Alojamiento económico", fr:"Hébergements petit budget", vi:"Chỗ ở giá rẻ", th:"ที่พักราคาประหยัด" }
+  "Budget Stays":          { ko:"가성비 숙소", zh:"经济型住宿", ja:"格安宿", ru:"Бюджетное жильё", es:"Alojamiento económico", fr:"Hébergements petit budget", vi:"Chỗ ở giá rẻ", th:"ที่พักราคาประหยัด" },
+
+  /* ================= v2: labels actually used in gilgo-patch.js ================= */
+
+  /* ---------- Belt buttons & extra tabs ---------- */
+  "Culture Belt":   { ko:"문화 벨트", zh:"文化主题", ja:"カルチャー", ru:"Культура", es:"Cultura", fr:"Culture", vi:"Văn hóa", th:"วัฒนธรรม" },
+  "Hallyu Belt":    { ko:"한류 벨트", zh:"韩流主题", ja:"韓流", ru:"Халлю", es:"Hallyu", fr:"Hallyu", vi:"Hallyu", th:"กระแสเกาหลี" },
+  "K-Beauty Belt":  { ko:"K-뷰티 벨트", zh:"韩国美妆", ja:"Kビューティー", ru:"K-бьюти", es:"K-Beauty", fr:"K-Beauty", vi:"K-Beauty", th:"เคบิวตี้" },
+  "K-Taste Belt":   { ko:"K-미식 벨트", zh:"韩国美食", ja:"Kグルメ", ru:"K-вкус", es:"K-Sabor", fr:"K-Saveurs", vi:"K-Ẩm thực", th:"อาหารเกาหลี" },
+  "Lodging Belt":   { ko:"숙소 벨트", zh:"住宿", ja:"宿泊", ru:"Жильё", es:"Alojamiento", fr:"Hébergement", vi:"Lưu trú", th:"ที่พัก" },
+  "All":            { ko:"전체", zh:"全部", ja:"すべて", ru:"Все", es:"Todo", fr:"Tout", vi:"Tất cả", th:"ทั้งหมด" },
+  "Music Shows & Events": { ko:"음악 공연·행사", zh:"音乐演出与活动", ja:"音楽ショー・イベント", ru:"Музыкальные шоу и события", es:"Shows musicales y eventos", fr:"Spectacles musicaux et événements", vi:"Show âm nhạc & sự kiện", th:"โชว์ดนตรีและอีเวนต์" },
+  "Restaurants":    { ko:"음식점", zh:"餐厅", ja:"レストラン", ru:"Рестораны", es:"Restaurantes", fr:"Restaurants", vi:"Nhà hàng", th:"ร้านอาหาร" },
+  "Cafes":          { ko:"카페", zh:"咖啡馆", ja:"カフェ", ru:"Кафе", es:"Cafés", fr:"Cafés", vi:"Quán cà phê", th:"คาเฟ่" },
+  "Places to Stay": { ko:"숙소", zh:"住宿地点", ja:"宿泊施設", ru:"Где остановиться", es:"Dónde alojarse", fr:"Où dormir", vi:"Nơi lưu trú", th:"ที่พัก" },
+
+  /* ---------- K-TASTE · Restaurants ---------- */
+  "Samgyetang":           { ko:"삼계탕", zh:"参鸡汤", ja:"サムゲタン", ru:"Самгетан", es:"Samgyetang (sopa de pollo con ginseng)", fr:"Samgyetang (soupe de poulet au ginseng)", vi:"Gà hầm sâm", th:"ซัมกเยทัง (ไก่ตุ๋นโสม)" },
+  "Dakgalbi":             { ko:"닭갈비", zh:"辣炒鸡排", ja:"タッカルビ", ru:"Тэккальби", es:"Dakgalbi (pollo salteado picante)", fr:"Dakgalbi (poulet sauté épicé)", vi:"Gà xào cay Dakgalbi", th:"ทักกัลบี (ไก่ผัดเผ็ด)" },
+  "Samgyeopsal":          { ko:"삼겹살", zh:"五花肉", ja:"サムギョプサル", ru:"Самгёпсаль", es:"Samgyeopsal (panceta a la parrilla)", fr:"Samgyeopsal (poitrine de porc grillée)", vi:"Thịt ba chỉ nướng", th:"ซัมกยอบซัล (หมูสามชั้นย่าง)" },
+  "Gukbap":               { ko:"국밥", zh:"汤饭", ja:"クッパ", ru:"Кукпап", es:"Gukbap (sopa con arroz)", fr:"Gukbap (soupe au riz)", vi:"Cơm canh Gukbap", th:"กุกบับ (ข้าวต้มซุป)" },
+  "Bibimbap":             { ko:"비빔밥", zh:"拌饭", ja:"ビビンバ", ru:"Пибимпап", es:"Bibimbap", fr:"Bibimbap", vi:"Cơm trộn Bibimbap", th:"บิบิมบับ" },
+  "Naengmyeon":           { ko:"냉면", zh:"冷面", ja:"冷麺", ru:"Нэнмён", es:"Naengmyeon (fideos fríos)", fr:"Naengmyeon (nouilles froides)", vi:"Mì lạnh", th:"แนงมยอน (บะหมี่เย็น)" },
+  "Tteokbokki":           { ko:"떡볶이", zh:"炒年糕", ja:"トッポッキ", ru:"Токпокки", es:"Tteokbokki", fr:"Tteokbokki", vi:"Bánh gạo cay", th:"ต็อกบกกี" },
+  "Seafood":              { ko:"해산물", zh:"海鲜", ja:"海鮮", ru:"Морепродукты", es:"Mariscos", fr:"Fruits de mer", vi:"Hải sản", th:"อาหารทะเล" },
+  "Korean Fried Chicken": { ko:"치킨", zh:"韩式炸鸡", ja:"韓国チキン", ru:"Корейская жареная курица", es:"Pollo frito coreano", fr:"Poulet frit coréen", vi:"Gà rán Hàn Quốc", th:"ไก่ทอดเกาหลี" },
+  "Street Food":          { ko:"길거리 음식", zh:"街头小吃", ja:"屋台グルメ", ru:"Уличная еда", es:"Comida callejera", fr:"Street food", vi:"Đồ ăn đường phố", th:"สตรีทฟู้ด" },
+  "Halal Restaurants":    { ko:"할랄 음식점", zh:"清真餐厅", ja:"ハラールレストラン", ru:"Халяльные рестораны", es:"Restaurantes halal", fr:"Restaurants halal", vi:"Nhà hàng Halal", th:"ร้านอาหารฮาลาล" },
+  "Vegetarian Restaurants": { ko:"채식 음식점", zh:"素食餐厅", ja:"ベジタリアンレストラン", ru:"Вегетарианские рестораны", es:"Restaurantes vegetarianos", fr:"Restaurants végétariens", vi:"Nhà hàng chay", th:"ร้านอาหารมังสวิรัติ" },
+  "Halal only":           { ko:"할랄만", zh:"仅清真", ja:"ハラールのみ", ru:"Только халяль", es:"Solo halal", fr:"Halal uniquement", vi:"Chỉ Halal", th:"เฉพาะฮาลาล" },
+  "Vegetarian only":      { ko:"채식만", zh:"仅素食", ja:"ベジタリアンのみ", ru:"Только вегетарианское", es:"Solo vegetariano", fr:"Végétarien uniquement", vi:"Chỉ món chay", th:"เฉพาะมังสวิรัติ" },
+
+  /* ---------- K-TASTE · Cafes ---------- */
+  "Local Chain Coffee & Bakery": { ko:"국내 체인 카페·베이커리", zh:"本土连锁咖啡与面包店", ja:"韓国チェーンカフェ・ベーカリー", ru:"Местные сети кофеен и пекарен", es:"Cadenas locales de café y panadería", fr:"Chaînes locales de café et boulangerie", vi:"Chuỗi cà phê & bánh mì địa phương", th:"ร้านกาแฟและเบเกอรี่เครือข่ายท้องถิ่น" },
+  "Pet Cafe":              { ko:"애견·고양이 카페", zh:"宠物咖啡馆", ja:"動物カフェ", ru:"Кафе с животными", es:"Café de mascotas", fr:"Café animalier", vi:"Cà phê thú cưng", th:"คาเฟ่สัตว์เลี้ยง" },
+  "Vintage Cafe":          { ko:"빈티지 카페", zh:"复古咖啡馆", ja:"ヴィンテージカフェ", ru:"Винтажное кафе", es:"Café vintage", fr:"Café vintage", vi:"Cà phê vintage", th:"คาเฟ่วินเทจ" },
+  "Hanok Cafe":            { ko:"한옥 카페", zh:"韩屋咖啡馆", ja:"韓屋カフェ", ru:"Кафе в ханоке", es:"Café en hanok", fr:"Café dans un hanok", vi:"Cà phê nhà Hanok", th:"คาเฟ่บ้านฮันอก" },
+  "Luxury Cafe":           { ko:"대형·프리미엄 카페", zh:"豪华咖啡馆", ja:"高級カフェ", ru:"Премиальное кафе", es:"Café de lujo", fr:"Café de luxe", vi:"Cà phê cao cấp", th:"คาเฟ่หรู" },
+  "Ocean View Cafe":       { ko:"오션뷰 카페", zh:"海景咖啡馆", ja:"オーシャンビューカフェ", ru:"Кафе с видом на море", es:"Café con vista al mar", fr:"Café vue sur mer", vi:"Cà phê view biển", th:"คาเฟ่วิวทะเล" },
+  "Workshop Cafe":         { ko:"공방 카페", zh:"工坊咖啡馆", ja:"工房カフェ", ru:"Кафе-мастерская", es:"Café taller", fr:"Café-atelier", vi:"Cà phê xưởng thủ công", th:"คาเฟ่เวิร์กช็อป" },
+  "Rooftop Cafe":          { ko:"루프탑 카페", zh:"屋顶咖啡馆", ja:"ルーフトップカフェ", ru:"Кафе на крыше", es:"Café en azotea", fr:"Café sur le toit", vi:"Cà phê sân thượng", th:"คาเฟ่ดาดฟ้า" },
+  "Nature & Garden Cafe":  { ko:"자연·정원 카페", zh:"自然花园咖啡馆", ja:"ガーデンカフェ", ru:"Кафе с садом", es:"Café de naturaleza y jardín", fr:"Café nature et jardin", vi:"Cà phê sân vườn", th:"คาเฟ่ธรรมชาติและสวน" },
+  "Dessert Cafe":          { ko:"디저트 카페", zh:"甜品咖啡馆", ja:"デザートカフェ", ru:"Кафе-кондитерская", es:"Café de postres", fr:"Café à desserts", vi:"Cà phê tráng miệng", th:"คาเฟ่ของหวาน" },
+  "Traditional Tea Cafe":  { ko:"전통 찻집", zh:"传统茶馆", ja:"伝統茶カフェ", ru:"Традиционная чайная", es:"Casa de té tradicional", fr:"Salon de thé traditionnel", vi:"Quán trà truyền thống", th:"ร้านชาแบบดั้งเดิม" },
+  "Bakery Cafe":           { ko:"베이커리 카페", zh:"烘焙咖啡馆", ja:"ベーカリーカフェ", ru:"Кафе-пекарня", es:"Café panadería", fr:"Café-boulangerie", vi:"Cà phê tiệm bánh", th:"คาเฟ่เบเกอรี่" },
+  "Character Cafe":        { ko:"캐릭터 카페", zh:"主题角色咖啡馆", ja:"キャラクターカフェ", ru:"Тематическое кафе с персонажами", es:"Café temático de personajes", fr:"Café à thème de personnages", vi:"Cà phê nhân vật", th:"คาเฟ่คาแรกเตอร์" },
+
+  /* ---------- LODGING (live labels) ---------- */
+  "Guesthouses":           { ko:"게스트하우스", zh:"民宿", ja:"ゲストハウス", ru:"Гостевые дома", es:"Casas de huéspedes", fr:"Maisons d'hôtes", vi:"Nhà nghỉ", th:"เกสต์เฮาส์" },
+  "Hostels":               { ko:"호스텔", zh:"青年旅舍", ja:"ホステル", ru:"Хостелы", es:"Hostales", fr:"Auberges de jeunesse", vi:"Hostel", th:"โฮสเทล" },
+  "Capsule Hotels":        { ko:"캡슐호텔", zh:"胶囊旅馆", ja:"カプセルホテル", ru:"Капсульные отели", es:"Hoteles cápsula", fr:"Hôtels capsules", vi:"Khách sạn con nhộng", th:"โรงแรมแคปซูล" },
+  "Jjimjilbang & Sauna":   { ko:"찜질방·사우나", zh:"汗蒸房与桑拿", ja:"チムジルバン・サウナ", ru:"Чимчильбан и сауна", es:"Jjimjilbang y sauna", fr:"Jjimjilbang et sauna", vi:"Jjimjilbang & xông hơi", th:"จิมจิลบังและซาวน่า" },
+  "Jjimjilbang Overnight": { ko:"찜질방 숙박", zh:"汗蒸房过夜", ja:"チムジルバン宿泊", ru:"Ночёвка в чимчильбане", es:"Noche en jjimjilbang", fr:"Nuit en jjimjilbang", vi:"Ngủ qua đêm ở jjimjilbang", th:"ค้างคืนที่จิมจิลบัง" },
+  "Traditional Stay":      { ko:"전통 숙소", zh:"传统住宿", ja:"伝統宿", ru:"Традиционное жильё", es:"Alojamiento tradicional", fr:"Hébergement traditionnel", vi:"Lưu trú truyền thống", th:"ที่พักแบบดั้งเดิม" }
 };
 
 function tLabel(en, lang){
