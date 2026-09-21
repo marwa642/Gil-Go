@@ -214,7 +214,7 @@
     // Keyword categories: each one updates its own count when ready.
     categories.filter(c => c.source !== "tourapi").forEach(cat => {
       jobs.push(Promise.all((cat.keywords || []).map(kw =>
-        post({ type: "nearby-search", keyword: kw, lat, lng, nationwide: false, maxPages: 1 })
+        post({ type: "nearby-search", keyword: kw, lat, lng, nationwide: false, maxPages: 3 })
           .then(d => d.places || []).catch(() => [])
       )).then(lists => {
         if (!alive()) return;
